@@ -48,7 +48,7 @@ merb_release = {
     ]
 }
 
-merb_gem_paths = %w[merb merb-core] + merb_more_gem_paths + %w[merb_datamapper]
+merb_gem_paths = %w[merb-core merb_datamapper] + merb_more_gem_paths + %w[merb]
 
 merb_gems = merb_gem_paths.map { |p| File.basename(p) }
 merb_more_gems = merb_more_gem_paths.map { |p| File.basename(p) }
@@ -118,7 +118,14 @@ task :install do
 end
 
 desc "Uninstall all gems"
-task :uninstall => ['uninstall:core', 'uninstall:more']
+task :uninstall do
+  merb_gems.each do |gem|
+    Merb::RakeHelper.uninstall(gem, :version => Merb::VERSION)
+  end
+  Merb::RakeHelper.uninstall('merb-auth-slice-password', :version => Merb::VERSION)
+  Merb::RakeHelper.uninstall('merb-auth-more', :version => Merb::VERSION)
+  Merb::RakeHelper.uninstall('merb-auth-core', :version => Merb::VERSION)
+end
 
 desc "Build the merb-more gems"
 task :build_gems do
