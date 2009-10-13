@@ -52,11 +52,6 @@ module Merb
 
       empty_directory :gems, 'gems'
 
-      template :gemfile do |template|
-        template.source = File.join(source_root, "Gemfile")
-        template.destination = "Gemfile"
-      end
-
       template :rakefile do |template|
         template.source = File.join(common_templates_dir, "Rakefile")
         template.destination = "Rakefile"
@@ -67,16 +62,6 @@ module Merb
         file.destination = ".gitignore"
       end
 
-      file :htaccess do |file|
-        file.source = File.join(common_templates_dir, 'dothtaccess')
-        file.destination = 'public/.htaccess'
-      end
-      
-      file :doctask do |file|
-        file.source = File.join(common_templates_dir, 'doc.thor')
-        file.destination = 'tasks/doc.thor'
-      end
-      
       file :jquery do |file|
         file.source = File.join(common_templates_dir, 'jquery.js')
         file.destination = 'public/javascripts/jquery.js'
@@ -92,6 +77,8 @@ module Merb
       #
       # ==== Layout specific things
       #
+      template :gemfile, "Gemfile", "Gemfile"
+      file :passenger_config, "config.ru"
 
       def dm_gems_version
         Merb::DM_VERSION
