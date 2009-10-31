@@ -1,100 +1,62 @@
-require File.expand_path(File.join(File.dirname(__FILE__), "..", "rake_helpers"))
+require 'rubygems'
+require 'rake'
 
-NAME = "merb"
-AUTHOR = "Merb Team"
-EMAIL = "team@merbivore.com"
-HOMEPAGE = "http://merbivore.com/"
-SUMMARY = "(merb-core + merb-more + DM) == Merb stack"
+# Assume a typical dev checkout to fetch the current version information
+require File.expand_path('../../merb-core/lib/merb-core/version', __FILE__)
+require File.expand_path('../../../merb_datamapper/lib/merb_datamapper/version', __FILE__)
 
-# For RubyForge release task
-RUBY_FORGE_PROJECT  = "merb"
-PROJECT_URL         = HOMEPAGE
-PROJECT_SUMMARY     = SUMMARY
-PROJECT_DESCRIPTION = SUMMARY
+begin
 
-GEM_AUTHOR = AUTHOR
-GEM_EMAIL  = EMAIL
+  require 'jeweler'
 
-GEM_NAME    = NAME
-PKG_BUILD   = ENV['PKG_BUILD'] ? '.' + ENV['PKG_BUILD'] : ''
-GEM_VERSION = Merb::VERSION  + PKG_BUILD
-DM_VERSION  = Merb::DM_VERSION
+  Jeweler::Tasks.new do |gemspec|
 
-RELEASE_NAME    = "REL #{GEM_VERSION}"
+    gemspec.version     = Merb::VERSION
 
-gems = [
-  ["merb-core", "= #{GEM_VERSION}"],
-  ["merb_datamapper", "= #{GEM_VERSION}"],
-  ["dm-core", "~> #{DM_VERSION}"],
-  ["do_sqlite3", "~> #{DM_VERSION}"],
-  ["dm-timestamps", "~> #{DM_VERSION}"],
-  ["dm-types", "~> #{DM_VERSION}"],
-  ["dm-aggregates", "~> #{DM_VERSION}"],
-  ["dm-migrations", "~> #{DM_VERSION}"],
-  ["dm-validations", "~> #{DM_VERSION}"],
-  ["dm-sweatshop", "~> #{DM_VERSION}"],
-  ["dm-serializer", "~> #{DM_VERSION}"]
-]
+    gemspec.name        = "merb"
+    gemspec.description = "The Merb stack"
+    gemspec.summary     = "The Merb stack includes the most common merb plugins plus datamapper"
 
-merb_spec = Gem::Specification.new do |s|
-  s.rubyforge_project = 'merb'
-  s.name         = NAME
-  s.version      = GEM_VERSION
-  s.platform     = Gem::Platform::RUBY
-  s.author       = AUTHOR
-  s.email        = EMAIL
-  s.homepage     = HOMEPAGE
-  s.summary      = SUMMARY
-  s.description  = SUMMARY
-  s.files        = %w(LICENSE README Rakefile) + Dir.glob("{lib}/**/*")
-  s.required_rubygems_version = ">= 1.3.0"
-  gems.each do |gem, version|
-    s.add_dependency gem, version
+    gemspec.authors     = [ "The Merb Team" ]
+    gemspec.email       = "team@merbivore.com"
+    gemspec.homepage    = "http://merbivore.com/"
+
+    gemspec.files       = %w(LICENSE Rakefile README) + Dir['lib/**/*']
+
+    # Runtime dependencies
+    gemspec.add_dependency "merb-core",             "=  #{Merb::VERSION}"
+    gemspec.add_dependency "merb-action-args",      "=  #{Merb::VERSION}"
+    gemspec.add_dependency "merb-assets",           "=  #{Merb::VERSION}"
+    gemspec.add_dependency "merb-auth",             "=  #{Merb::VERSION}"
+    gemspec.add_dependency "merb-cache",            "=  #{Merb::VERSION}"
+    gemspec.add_dependency "merb-exceptions",       "=  #{Merb::VERSION}"
+    gemspec.add_dependency "merb-gen",              "=  #{Merb::VERSION}"
+    gemspec.add_dependency "merb-haml",             "=  #{Merb::VERSION}"
+    gemspec.add_dependency "merb-helpers",          "=  #{Merb::VERSION}"
+    gemspec.add_dependency "merb-mailer",           "=  #{Merb::VERSION}"
+    gemspec.add_dependency "merb-param-protection", "=  #{Merb::VERSION}"
+    gemspec.add_dependency "merb-slices",           "=  #{Merb::VERSION}"
+    gemspec.add_dependency "merb_datamapper",       "=  #{Merb::VERSION}"
+    gemspec.add_dependency "do_sqlite3",            Merb::DataMapper::DM_VERSION_REQUIREMENT
+    gemspec.add_dependency "dm-timestamps",         Merb::DataMapper::DM_VERSION_REQUIREMENT
+    gemspec.add_dependency "dm-types",              Merb::DataMapper::DM_VERSION_REQUIREMENT
+    gemspec.add_dependency "dm-aggregates",         Merb::DataMapper::DM_VERSION_REQUIREMENT
+    gemspec.add_dependency "dm-validations",        Merb::DataMapper::DM_VERSION_REQUIREMENT
+    gemspec.add_dependency "dm-sweatshop",          Merb::DataMapper::DM_VERSION_REQUIREMENT
+    gemspec.add_dependency "dm-serializer",         Merb::DataMapper::DM_VERSION_REQUIREMENT
+
+    # Development dependencies
+    gemspec.add_development_dependency 'rspec',     '>= 1.2.9'
+    gemspec.add_development_dependency 'webrat',    '>= 0.3.1'
+
+    # Requirements
+    gemspec.requirements << "install the json gem to get faster json parsing"
+    gemspec.required_ruby_version = ">= 1.8.6"
+
   end
-end
 
-Rake::GemPackageTask.new(merb_spec) do |package|
-  package.gem_spec = merb_spec
-end
+  Jeweler::GemcutterTasks.new
 
-require "extlib/tasks/release"
-
-task :package => ["lib/merb.rb"]
-desc "Create merb.rb"
-task "lib/merb.rb" do
-  mkdir_p "lib"
-  File.open("lib/merb.rb","w+") do |file|
-    file.puts "### AUTOMATICALLY GENERATED. DO NOT EDIT!"
-    gems.each do |pair|
-      g, _ = pair
-      file.puts "require '#{g}'"
-    end
-  end
-end
-
-desc "Bundle up all the merb-more gems"
-task :bundle => [:package] do
-  mkdir_p "bundle"
-  cp "pkg/merb-#{GEM_VERSION}.gem", "bundle"
-  cp "pkg/merb-more-#{GEM_VERSION}.gem", "bundle"
-  gems.each do |gem|
-    sh %{cp #{gem}/pkg/#{gem}-#{Merb::MORE_VERSION}.gem bundle/}
-  end
-end
-
-desc "Install the gem"
-task :install do
-  Merb::RakeHelper.install(GEM_NAME, :version => GEM_VERSION)
-end
-
-desc "Uninstall the gem"
-task :uninstall do
-  Merb::RakeHelper.uninstall(GEM_NAME, :version => GEM_VERSION)
-end
-
-desc "create a gemspec file"
-task :make_spec do
-  File.open("#{NAME}.gemspec", "w") do |file|
-    file.puts spec.to_ruby
-  end
+rescue LoadError
+  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
