@@ -1,9 +1,19 @@
 require "rubygems"
-require "spec"
-require "merb-core"
-require File.join(File.dirname(__FILE__),"..",'lib',"merb-helpers")
+
+# Use current merb-core sources if running from a typical dev checkout.
+lib = File.expand_path('../../../merb-core/lib', __FILE__)
+$LOAD_PATH.unshift(lib) if File.directory?(lib)
+require 'merb-core'
+
+# The lib under test
+require "merb-helpers"
+
+# Satisfies Autotest and anyone else not using the Rake tasks
+require 'spec'
+
 require "date"
 require "webrat"
+
 
 # Please read merb_helpers_form_spec.rb
 # for more info on how to test helpers
@@ -17,22 +27,13 @@ default_options = {
   :merb_root   => File.dirname(__FILE__) / 'fixture',
   :log_file    => File.dirname(__FILE__) / "merb_test.log"
 }
+
 options = default_options.merge($START_OPTIONS || {})
+
 
 Merb.disable(:initfile)
 Merb.start_environment(options)
 
-def unload_merb_helpers
-  Merb.class_eval do
-    remove_const("Helpers") if defined?(Merb::Helpers)
-  end
-end
-
-def reload_merb_helpers
-  unload_merb_helpers
-  load(MERB_HELPERS_ROOT + "/lib/merb-helpers.rb") 
-  Merb::Helpers.load
-end
 
 class FakeErrors
   
@@ -56,8 +57,6 @@ class FakeColumn
   end
   
 end
-
-
 
 
 # -- Global custom matchers --

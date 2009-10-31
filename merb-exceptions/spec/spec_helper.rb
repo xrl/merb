@@ -1,8 +1,21 @@
-$:.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 require "rubygems"
-require "merb-core"
-require "spec"
+
+# Use current merb-core sources if running from a typical dev checkout.
+lib = File.expand_path('../../../merb-core/lib', __FILE__)
+$LOAD_PATH.unshift(lib) if File.directory?(lib)
+require 'merb-core'
+
+# Use current merb-mailer sources if running from a typical dev checkout.
+lib = File.expand_path('../../../merb-mailer/lib', __FILE__)
+$LOAD_PATH.unshift(lib) if File.directory?(lib)
+require 'merb-mailer'
+
+# The lib under test
 require "merb-exceptions"
+
+# Satisfies Autotest and anyone else not using the Rake tasks
+require 'spec'
+
 
 class Application < Merb::Controller
 end

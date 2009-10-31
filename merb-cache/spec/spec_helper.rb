@@ -1,23 +1,28 @@
-$:.push File.join(File.dirname(__FILE__), '..', 'lib')
+require "rubygems"
 
-# Deps
-require 'rubygems'
+# Use current merb-core sources if running from a typical dev checkout.
+lib = File.expand_path('../../../merb-core/lib', __FILE__)
+$LOAD_PATH.unshift(lib) if File.directory?(lib)
 require 'merb-core'
+
+# Use current merb-action-args sources if running from a typical dev checkout.
+lib = File.expand_path('../../../merb-action-args/lib', __FILE__)
+$LOAD_PATH.unshift(lib) if File.directory?(lib)
 require 'merb-action-args'
-require File.join(File.dirname(__FILE__), '..', 'lib', 'merb-cache')
 
-Merb.disable(:initfile)
+# The lib under test
+require "merb-cache"
 
-Merb.start :environment => "test",
-           :adapter     => "runner",
-           :log_file    => File.join(File.dirname(__FILE__), '..', 'log', 'merb_test.log')
+# Satisfies Autotest and anyone else not using the Rake tasks
+require 'spec'
 
-require "merb-core/test"
+Merb.start :environment => 'test'
+
 Spec::Runner.configure do |config|
-  config.include Merb::Test::Helpers
-  #config.include Merb::Test::ControllerHelper
+  config.include Merb::Test::RequestHelper
   config.include Merb::Test::RouteHelper
 end
+
 
 class DummyStore < Merb::Cache::AbstractStore
   cattr_accessor :vault
