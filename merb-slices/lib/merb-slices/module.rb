@@ -1,8 +1,6 @@
 module Merb
   module Slices
     
-    VERSION = "0.9.8"
-    
     class << self
       
       # Retrieve a slice module by name 
