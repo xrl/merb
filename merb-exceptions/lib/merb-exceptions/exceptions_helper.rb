@@ -21,7 +21,14 @@ module MerbExceptions
         rescue Exception => e
           exceptions = request.exceptions << e
           Merb.logger.fatal!("Exception Notification Failed:\n" + (exceptions).inspect)
-          File.open(Merb.root / 'log' / 'notification_errors.log', 'a') do |log|
+
+          log_dir = Merb.root / 'log'
+          unless File.directory?(log_dir)
+            require 'fileutils'
+            FileUtils.mkdir_p(log_dir)
+          end
+
+          File.open(log_dir / 'notification_errors.log', 'a') do |log|
             log.puts("Exception Notification Failed:")
             exceptions.each do |e|
               log.puts(Merb.exception(e))
