@@ -2,7 +2,7 @@ if defined?(Merb::Plugins)
 
   $:.unshift File.dirname(__FILE__)
 
-  dependency 'merb-slices', :immediate => true
+  require 'merb-slices'
   Merb::Plugins.add_rakefiles "thin-test-slice/merbtasks", "thin-test-slice/slicetasks"
 
   # Register the Slice for the current host application
@@ -88,8 +88,5 @@ if defined?(Merb::Plugins)
   #
   # For a thin slice we just add application.rb, :view and :public locations.
   ThinTestSlice.setup_default_structure!
-  
-  # Add dependencies for other ThinTestSlice classes below. Example:
-  # dependency "thin-test-slice/other"
   
 end
