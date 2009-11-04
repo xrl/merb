@@ -23,17 +23,25 @@ DM_VERSION  = Merb::DM_VERSION
 RELEASE_NAME    = "REL #{GEM_VERSION}"
 
 gems = [
-  ["merb-core", "= #{GEM_VERSION}"],
-  ["merb_datamapper", "= #{GEM_VERSION}"],
-  ["dm-core", "~> #{DM_VERSION}"],
-  ["do_sqlite3", "~> #{DM_VERSION}"],
-  ["dm-timestamps", "~> #{DM_VERSION}"],
-  ["dm-types", "~> #{DM_VERSION}"],
-  ["dm-aggregates", "~> #{DM_VERSION}"],
-  ["dm-migrations", "~> #{DM_VERSION}"],
-  ["dm-validations", "~> #{DM_VERSION}"],
-  ["dm-sweatshop", "~> #{DM_VERSION}"],
-  ["dm-serializer", "~> #{DM_VERSION}"]
+  ["merb-core",             "= #{GEM_VERSION}"],
+  ["merb-action-args",      "= #{GEM_VERSION}"],
+  ["merb-assets",           "= #{GEM_VERSION}"],
+  ["merb-auth",             "= #{GEM_VERSION}"],
+  ["merb-exceptions",       "= #{GEM_VERSION}"],
+  ["merb-gen",              "= #{GEM_VERSION}"],
+  ["merb-haml",             "= #{GEM_VERSION}"],
+  ["merb-helpers",          "= #{GEM_VERSION}"],
+  ["merb-mailer",           "= #{GEM_VERSION}"],
+  ["merb-param-protection", "= #{GEM_VERSION}"],
+  ["merb-slices",           "= #{GEM_VERSION}"],
+  ["merb_datamapper",       "= #{GEM_VERSION}"],
+  ["do_sqlite3",            "~> #{DM_VERSION}"],
+  ["dm-timestamps",         "~> #{DM_VERSION}"],
+  ["dm-types",              "~> #{DM_VERSION}"],
+  ["dm-aggregates",         "~> #{DM_VERSION}"],
+  ["dm-validations",        "~> #{DM_VERSION}"],
+  ["dm-sweatshop",          "~> #{DM_VERSION}"],
+  ["dm-serializer",         "~> #{DM_VERSION}"]
 ]
 
 merb_spec = Gem::Specification.new do |s|
