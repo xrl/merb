@@ -44,6 +44,7 @@ begin
     gemspec.add_dependency "dm-validations",        Merb::DataMapper::DM_VERSION_REQUIREMENT
     gemspec.add_dependency "dm-sweatshop",          Merb::DataMapper::DM_VERSION_REQUIREMENT
     gemspec.add_dependency "dm-serializer",         Merb::DataMapper::DM_VERSION_REQUIREMENT
+    gemspec.add_dependency "dm-constraints",        Merb::DataMapper::DM_VERSION_REQUIREMENT
 
     # Development dependencies
     gemspec.add_development_dependency 'rspec',     '>= 1.2.9'
