@@ -1,3 +1,5 @@
+require 'spec/rake/spectask'
+
 namespace :slices do
   namespace :full_test_slice do
       

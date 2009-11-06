@@ -10,7 +10,6 @@ merb_stack_gems = [
   { :name => 'merb-assets',           :path => "#{ROOT}/merb-assets"           },
   { :name => 'merb-slices',           :path => "#{ROOT}/merb-slices"           },
   { :name => 'merb-cache',            :path => "#{ROOT}/merb-cache"            },
-  { :name => 'merb-exceptions',       :path => "#{ROOT}/merb-exceptions"       },
   { :name => 'merb-gen',              :path => "#{ROOT}/merb-gen"              },
   { :name => 'merb-haml',             :path => "#{ROOT}/merb-haml"             },
   { :name => 'merb-helpers',          :path => "#{ROOT}/merb-helpers"          },
@@ -18,6 +17,7 @@ merb_stack_gems = [
   { :name => 'merb-param-protection', :path => "#{ROOT}/merb-param-protection" },
   { :name => 'merb-auth',             :path => "#{ROOT}/../merb-auth"          },
   { :name => 'merb_datamapper',       :path => "#{ROOT}/../merb_datamapper"    },
+  { :name => 'merb-exceptions',       :path => "#{ROOT}/merb-exceptions"       },
   { :name => 'merb',                  :path => "#{ROOT}/merb"                  }
 ]
 
