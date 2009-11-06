@@ -2,7 +2,7 @@ if defined?(Merb::Plugins)
 
   $:.unshift File.dirname(__FILE__)
 
-  dependency 'merb-slices', :immediate => true
+  require 'merb-slices'
   Merb::Plugins.add_rakefiles "full-test-slice/merbtasks", "full-test-slice/slicetasks", "full-test-slice/spectasks"
 
   # Register the Slice for the current host application
@@ -75,8 +75,5 @@ if defined?(Merb::Plugins)
   #
   # Or just call setup_default_structure! to setup a basic Merb MVC structure.
   FullTestSlice.setup_default_structure!
-  
-  # Add dependencies for other FullTestSlice classes below. Example:
-  # dependency "full-test-slice/other"
   
 end

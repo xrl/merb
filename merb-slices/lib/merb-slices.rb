@@ -1,3 +1,4 @@
+require 'merb-slices/version'
 require 'merb-slices/module'
 
 if defined?(Merb::Plugins)

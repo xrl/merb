@@ -1,4 +1,6 @@
-load File.dirname(__FILE__) / ".." / "tag_helpers.rb"
+#load File.dirname(__FILE__) / ".." / "tag_helpers.rb"
+
+require 'merb-helpers/tag_helpers'
 
 module Merb::Helpers::Form::Builder
 

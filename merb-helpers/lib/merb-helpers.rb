@@ -6,9 +6,10 @@ module Merb
     @@helpers_files = Dir["#{@@helpers_dir}/*_helpers.rb"].collect {|h| h.match(/\/(\w+)\.rb/)[1]}
     
     def self.load
-      require @@helpers_dir + '/time_dsl'
-      require @@helpers_dir + '/core_ext'
-      require @@helpers_dir + '/core_ext/numeric'
+
+      require 'merb-helpers/time_dsl'
+      require 'merb-helpers/core_ext'
+      require 'merb-helpers/core_ext/numeric'
 
       if Merb::Plugins.config[:merb_helpers]
         config = Merb::Plugins.config[:merb_helpers]

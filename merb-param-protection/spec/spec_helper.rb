@@ -1,7 +1,16 @@
-require 'rubygems'
-$:.push File.join(File.dirname(__FILE__), '..', 'lib')
+require "rubygems"
+
+# Use current merb-core sources if running from a typical dev checkout.
+lib = File.expand_path('../../../merb-core/lib', __FILE__)
+$LOAD_PATH.unshift(lib) if File.directory?(lib)
 require 'merb-core'
-require 'merb-param-protection'
+
+# The lib under test
+require "merb-param-protection"
+
+# Satisfies Autotest and anyone else not using the Rake tasks
+require 'spec'
+
 
 Spec::Runner.configure do |config|
   config.include(Merb::Test::ViewHelper)
@@ -21,11 +30,4 @@ def new_controller(action = 'index', controller = nil, additional_params = {})
   response = OpenStruct.new
   response.read = ""
   (controller || Merb::Controller).build(request, response)
-end
-
-class Merb::Controller
-  # require 'merb/session/memory_session'
-  # Merb::MemorySessionContainer.setup
-  # include ::Merb::SessionMixin
-  # self.session_secret_key = "footo the bar to the baz"
 end

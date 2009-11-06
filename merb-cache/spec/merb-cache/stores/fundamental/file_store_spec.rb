@@ -1,6 +1,5 @@
-require File.dirname(__FILE__) + '/../../../spec_helper'
-# has 'all stores' shared group
-require File.dirname(__FILE__) + '/abstract_store_spec'
+require 'spec_helper'
+require 'merb-cache/stores/fundamental/abstract_store_spec'
 
 describe Merb::Cache::FileStore do
   it_should_behave_like 'all stores'

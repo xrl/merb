@@ -1,8 +1,20 @@
-$:.push File.join(File.dirname(__FILE__), '..', 'lib')
+require "rubygems"
 
-require 'rubygems'
+# Use current merb-core sources if running from a typical dev checkout.
+lib = File.expand_path('../../../merb-core/lib', __FILE__)
+$LOAD_PATH.unshift(lib) if File.directory?(lib)
+require 'merb-core'
+
+# Use current merb-gen sources if running from a typical dev checkout.
+lib = File.expand_path('../../../merb-gen/lib', __FILE__)
+$LOAD_PATH.unshift(lib) if File.directory?(lib)
 require 'merb-gen'
-require 'merb-slices'
+
+# The lib under test
+require "merb-slices"
+
+# Satisfies Autotest and anyone else not using the Rake tasks
+require 'spec'
 
 require 'generators/base'
 require 'generators/full'

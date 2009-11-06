@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/spec_helper'
+require 'spec_helper'
 
 # Quick rundown of how these specs work
 # please read before hacking on this plugin

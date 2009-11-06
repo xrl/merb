@@ -1,53 +1,36 @@
 require 'rubygems'
-require 'rake/gempackagetask'
+require 'rake'
 
-require 'merb-core'
-require 'merb-core/tasks/merb'
+# Assume a typical dev checkout to fetch the current merb-core version
+require 'merb-core/version'
 
-GEM_NAME = "<%= base_name %>"
-AUTHOR = "Your Name"
-EMAIL = "Your Email"
-HOMEPAGE = "http://merbivore.com/"
-SUMMARY = "Merb Slice that provides ..."
-GEM_VERSION = "<%= Merb::VERSION %>"
+begin
 
-spec = Gem::Specification.new do |s|
-  s.rubyforge_project = 'merb'
-  s.name = GEM_NAME
-  s.version = GEM_VERSION
-  s.platform = Gem::Platform::RUBY
-  s.has_rdoc = true
-  s.extra_rdoc_files = ["README", "LICENSE", 'TODO']
-  s.summary = SUMMARY
-  s.description = s.summary
-  s.author = AUTHOR
-  s.email = EMAIL
-  s.homepage = HOMEPAGE
-  s.add_dependency('merb-slices', '>= <%= Merb::VERSION %>')
-  s.require_path = 'lib'
-  s.files = %w(LICENSE README Rakefile TODO) + Dir.glob("{lib,spec,app,public,stubs}/**/*")
-end
+  require 'jeweler'
 
-Rake::GemPackageTask.new(spec) do |pkg|
-  pkg.gem_spec = spec
-end
+  Jeweler::Tasks.new do |gemspec|
 
-desc "Install the gem"
-task :install do
-  Merb::RakeHelper.install(GEM_NAME, :version => GEM_VERSION)
-end
+    gemspec.version     = '0.0.0'
 
-desc "Uninstall the gem"
-task :uninstall do
-  Merb::RakeHelper.uninstall(GEM_NAME, :version => GEM_VERSION)
-end
+    gemspec.name        = "<%= base_name %>"
+    gemspec.description = "The description of your slice"
+    gemspec.summary     = "The summary of your slice"
 
-desc "Create a gemspec file"
-task :gemspec do
-  File.open("#{GEM_NAME}.gemspec", "w") do |file|
-    file.puts spec.to_ruby
+    gemspec.authors     = [ "Your name" ]
+    gemspec.email       = "your@email.com"
+    gemspec.homepage    = "http://example.org/"
+
+    # Runtime dependencies
+    gemspec.add_dependency 'merb-slices', '~> <%= Merb::VERSION %>'
+
   end
+
+  Jeweler::GemcutterTasks.new
+
+rescue LoadError
+  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
 end
+
 <% if testing_framework.to_sym == :rspec %>
 require 'spec/rake/spectask'
 require 'merb-core/test/tasks/spectasks'

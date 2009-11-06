@@ -1,5 +1,8 @@
-load File.dirname(__FILE__) / "form" / "helpers.rb"
-load File.dirname(__FILE__) / "form" / "builder.rb"
+#load File.dirname(__FILE__) / "form" / "helpers.rb"
+#load File.dirname(__FILE__) / "form" / "builder.rb"
+
+require 'merb-helpers/form/helpers'
+require 'merb-helpers/form/builder'
 
 module Merb::GlobalHelpers
   include Merb::Helpers::Form

@@ -2,7 +2,7 @@ if defined?(Merb::Plugins)
 
   $:.unshift File.dirname(__FILE__)
 
-  dependency 'merb-slices', :immediate => true
+  require 'merb-slices'
   Merb::Plugins.add_rakefiles "<%= base_name %>/merbtasks", "<%= base_name %>/slicetasks", "<%= base_name %>/spectasks"
 
   # Register the Slice for the current host application
@@ -75,8 +75,5 @@ if defined?(Merb::Plugins)
   #
   # Or just call setup_default_structure! to setup a basic Merb MVC structure.
   <%= module_name %>.setup_default_structure!
-  
-  # Add dependencies for other <%= module_name %> classes below. Example:
-  # dependency "<%= base_name %>/other"
   
 end

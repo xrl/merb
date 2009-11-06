@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/spec_helper'
+require 'spec_helper'
 
 class TestMailer < Merb::Mailer
   self.delivery_method = :test_send
