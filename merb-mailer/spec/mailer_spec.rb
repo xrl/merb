@@ -6,12 +6,12 @@ end
 
 class TestSMTPMailer < Merb::Mailer
   self.delivery_method = :net_smtp
-  self.config = { :host     => 'smtp.yourserver.com',
+  self.config = { :domain   => 'localhost.localdomain', 
+                  :host     => 'smtp.yourserver.com',
                   :port     => '25',              
                   :user     => 'user',
                   :pass     => 'pass',
                   :auth     => :plain }
-                  
 end
 
 class TestSendmailMailer < Merb::Mailer
@@ -103,16 +103,18 @@ describe "a merb mailer" do
 
   it "should be able to send mails via SMTP" do
     setup_test_mailer TestSMTPMailer
-    Net::SMTP.stub!(:start).and_return(true)
-    Net::SMTP.should_receive(:start).with("smtp.yourserver.com", 25, nil, "user", "pass", :plain)
+    smtp = Net::SMTP.new(@m.config[:host], @m.config[:port])
+    Net::SMTP.stub!(:new).and_return(smtp)
+    smtp.should_receive(:start).with("localhost.localdomain", "user", "pass", :plain)
     @m.deliver!
   end
   
   it "should send mails via SMTP with no auth" do
     setup_test_mailer TestSMTPMailer
     @m.config[:auth] = nil
-    Net::SMTP.stub!(:start).and_return(true)
-    Net::SMTP.should_receive(:start).with("smtp.yourserver.com", 25, nil, "user", "pass", nil)
+    smtp = Net::SMTP.new(@m.config[:host], @m.config[:port])
+    Net::SMTP.stub!(:new).and_return(smtp)
+    smtp.should_receive(:start).with("localhost.localdomain", "user", "pass", nil)
     @m.deliver!
   end
   
