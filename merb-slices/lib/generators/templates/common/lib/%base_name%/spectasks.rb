@@ -1,3 +1,5 @@
+require 'spec/rake/spectask'
+
 namespace :slices do
   namespace :<%= symbol_name %> do
       
