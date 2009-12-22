@@ -1,0 +1,12 @@
+README
+merb-core/lib/**/*.rb
+merb-action-args/lib/**/*.rb
+merb-assets/lib/**/*.rb
+merb-cache/lib/**/*.rb
+merb-exceptions/lib/**/*.rb
+merb-gen/lib/**/*.rb
+merb-haml/lib/**/*.rb
+merb-helpers/lib/**/*.rb
+merb-mailer/lib/**/*.rb
+merb-param-protection/lib/**/*.rb
+merb-slices/lib/**/*.rb
