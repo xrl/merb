@@ -232,6 +232,13 @@ describe "fields_for" do
     r = @c.render :midstream
     r.should have_selector("input[id=fake_model_foo][name='fake_model[foo]'][type=text][extra=true]")
   end
+
+  it "should be able to handle namespaced models by setting name attribute to concrete class name" do
+    @c.instance_variable_set(:@obj2, MyNamespace::NamespacedFakeModel.new)
+    r = @c.render :midstream
+    r.should have_selector("input[type=text][value=foowee]")
+    r.should have_selector("input[name='namespaced_fake_model[foo]'][type=text][value=named_foo]")
+  end
 end
 
 describe "text_field" do
@@ -277,6 +284,12 @@ describe "bound_text_field" do
   it "should take a string object and return a useful text control" do
     r = @c.render :basic
     r.should have_selector("input[type=text][id=fake_model_foo][name='fake_model[foo]'][value=foowee]")
+  end
+
+  it "should take a namespaced model and return correct fieldname" do
+    @c.instance_variable_set(:@obj, MyNamespace::NamespacedFakeModel.new)
+    r = @c.render :basic
+    r.should have_selector("input[type=text][id=namespaced_fake_model_foo][name='namespaced_fake_model[foo]'][value=named_foo]")
   end
 
   it "should take additional attributes and use them" do
