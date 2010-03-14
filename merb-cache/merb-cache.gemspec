@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ben Burkert"]
-  s.date = %q{2009-11-07}
+  s.date = %q{2010-03-14}
   s.description = %q{Merb plugin for supporting assets}
   s.email = %q{ben@benburkert.com}
   s.extra_rdoc_files = [
@@ -58,7 +58,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://merbivore.com/}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.6}
   s.summary = %q{Merb plugin that provides caching (page, action, fragment, object)}
 
   if s.respond_to? :specification_version then
