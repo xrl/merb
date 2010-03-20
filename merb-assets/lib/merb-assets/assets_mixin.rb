@@ -50,7 +50,7 @@ module Merb
     #     namespace/controller/action.(css|js)
     #
     def auto_link
-      [auto_link_css, auto_link_js].join("\n")
+      [auto_link_css, auto_link_js].join(Merb::Const::NEWLINE)
     end
 
     # ==== Parameters
@@ -67,7 +67,7 @@ module Merb
     def auto_link_css
       auto_link_paths.map do |path|
         asset_exists?(:stylesheet, path) ? css_include_tag(path) : nil
-      end.compact.join("\n")
+      end.compact.join(Merb::Const::NEWLINE)
     end
 
     # ==== Parameters
@@ -84,7 +84,7 @@ module Merb
     def auto_link_js
       auto_link_paths.map do |path|
         asset_exists?(:javascript, path) ? js_include_tag(path) : nil
-      end.compact.join("\n")
+      end.compact.join(Merb::Const::NEWLINE)
     end
 
     # ==== Parameters
@@ -110,10 +110,10 @@ module Merb
     # This is an auxiliary method which returns an array of all possible asset
     # paths for the current controller/action.
     def auto_link_paths
-      paths = (controller_name / action_name).split('/')
+      paths = (controller_name / action_name).split(Merb::Const::SLASH)
       first = paths.shift
       paths.inject( [first] ) do |memo, val|
-        memo.push [memo.last, val].join('/')
+        memo.push [memo.last, val].join(Merb::Const::SLASH)
       end
     end
 
@@ -171,7 +171,7 @@ module Merb
     #   # => <img src="/dynamic/charts">
     def image_tag(img, opts={})
       return "" if img.blank?
-      if img[0].chr == '/'
+      if img[0].chr == Merb::Const::SLASH
         opts[:src] = "#{Merb::Config[:path_prefix]}#{img}"
       else
         opts[:path] ||=
