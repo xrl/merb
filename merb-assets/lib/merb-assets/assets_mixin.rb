@@ -1,69 +1,68 @@
 module Merb
   # The AssetsMixin module provides a number of helper methods to views for
   # linking to assets and other pages, dealing with JavaScript and CSS.
+  #
+  # Merb provides views with convenience methods for links images and other
+  # assets.
   module AssetsMixin
     include Merb::Assets::AssetHelpers
 
     ABSOLUTE_PATH_REGEXP = %r{^#{Merb::Const::HTTP}s?://}
 
-    # :section: Accessing Assets
-    # Merb provides views with convenience methods for links images and other
-    # assets.
-
-
     # This tests whether a random query string shall be appended to a url.
+    #
     # Basically, you tell it your intention and if it's ok to use default
     # config values, and it will either use your intention or the value
     # set in Merb::Config[:reload_templates]
     #
-    # ==== Parameters
-    # intention<Boolean>: true if a random string shall be appended
-    # allow_default<Boolean>: true if it's ok to use Merb::Config[:reload_templates]
-    #
-    # ==== Returns
-    # <Boolean> true if a random query string shall be appended
-    #
-    # ==== Examples
+    # @example
     #   Merb::AssetsMixin.append_random_query_string?(options[:reload])
     #   Merb::AssetsMixin.append_random_query_string?(options[:reload], !absolute)
+    #
+    # @param [Boolean] intention: true if a random string shall be appended
+    # @param [Boolean] allow_default: true if it's ok to use Merb::Config[:reload_templates]
+    # @return [Boolean] true if a random query string shall be appended
     def self.append_random_query_string?(intention, allow_default = true)
       intention.nil? && allow_default ? Merb::Config[:reload_templates] : intention
     end
 
+    # This tests whether a timestamp query string shall be appended to a url.
+    #
+    # @see self.append_random_query_string?
+    #
+    # @example
+    #   Merb::AssetsMixin.append_timestamp_query_string?(options[:timestamp])
+    #   Merb::AssetsMixin.append_timestamp_query_string?(options[:timestamp], !absolute)
+    #
+    # @param [Boolean] intention: true if a timestamp string shall be appended
+    # @param [Boolean] allow_default: true if it's ok to use Merb::Config[:asset_timestamps]
+    # @return [Boolean] true if a timestamp query string shall be appended
     def self.append_timestamp_query_string?(intention, allow_default = true)
       intention.nil? && allow_default ? Merb::Config[:asset_timestamps] : intention
     end
 
-    # ==== Parameters
-    # none
+    # Automatically generates link for CSS and JS
     #
-    # ==== Returns
-    # html<String>
+    # We want all possible matches in the FileSys up to the action name
+    #    Given:  controller_name = "namespace/controller"
+    #            action_name     = "action"
+    # @example
+    # If all files are present should generate link/script tags for:
+    #    namespace.(css|js)
+    #    namespace/controller.(css|js)
+    #    namespace/controller/action.(css|js)
     #
-    # ==== Examples
-    #  We want all possible matches in the FileSys up to the action name
-    #     Given:  controller_name = "namespace/controller"
-    #             action_name     = "action"
-    #  If all files are present should generate link/script tags for:
-    #     namespace.(css|js)
-    #     namespace/controller.(css|js)
-    #     namespace/controller/action.(css|js)
-    #
+    # @return [String] html
     def auto_link
       [auto_link_css, auto_link_js].join(Merb::Const::NEWLINE)
     end
 
-    # ==== Parameters
-    # none
-    #
-    # ==== Returns
-    # html<String>
-    #
-    # ==== Examples
     # We want all possible matches in the file system upto the action name
     # for CSS. The reason for separating auto_link for CSS and JS is
     # performance concerns with page loading. See Yahoo performance rules
     # (http://developer.yahoo.com/performance/rules.html)
+    #
+    # @return [String] html
     def auto_link_css
       auto_link_paths.map do |path|
         asset_exists?(:stylesheet, path) ? css_include_tag(path) : nil
@@ -137,22 +136,25 @@ module Merb
       %{<a #{ opts.to_xml_attributes }>#{name}</a>}
     end
 
-    # ==== Parameters
-    # img<~to_s>:: The image path.
-    # opts<Hash>:: Additional options for the image tag (see below).
+    # Generate IMG tag
     #
-    # ==== Options (opts)
-    # :path<String>::
+    # @param [String, #to_s] img The image path.
+    # @param [Hash] opts Additional options for the image tag (see below).
+    # @option opts [String] :path
     #   Sets the path prefix for the image. Defaults to "/images/" or whatever
     #   is specified in Merb::Config. This is ignored if img is an absolute
     #   path or full URL.
-    # :reload<Boolean>::
+    # @option opts [Boolean] :reload
     #   Override the Merb::Config[:reload_templates] value. If true, a random query param will be appended
     #   to the image url
+    # @option opts [Boolean, String] :timestamp
+    #   Override the Merb::Config[:asset_timestamp] value. If true, a timestamp query param will be appended
+    #   to the image url. The value will be File.mtime(Merb.dir_for(:public) / path).
+    #   If String is passed than it will be used as the timestamp.
     #
     # All other options set HTML attributes on the tag.
     #
-    # ==== Examples
+    # @example
     #   image_tag('foo.gif')
     #   # => <img src='/images/foo.gif' />
     #
@@ -169,6 +171,8 @@ module Merb
     #   or
     #   image_tag('/dynamic/charts')
     #   # => <img src="/dynamic/charts">
+    #
+    # @return [String]
     def image_tag(img, opts={})
       return "" if img.blank?
       if img[0].chr == Merb::Const::SLASH
@@ -472,8 +476,9 @@ module Merb
       required_css(options).map { |req_js| css_include_tag(*req_js) }.join
     end
 
-    # ==== Parameters
-    # *scripts::
+    # Generate JavaScript include tag(s).
+    #
+    # @param [Array] scripts
     #   The scripts to include. If the last element is a Hash, it will be used
     #   as options (see below). If ".js" is left out from the script names, it
     #   will be added to them.
@@ -490,11 +495,12 @@ module Merb
     # :reload<Boolean>::
     #   Override the Merb::Config[:reload_templates] value. If true, a random query param will be appended
     #   to the js url
+    # @option opts [Boolean, String] :timestamp
+    #   Override the Merb::Config[:asset_timestamp] value. If true, a timestamp query param will be appended
+    #   to the image url. The value will be File.mtime(Merb.dir_for(:public) / path).
+    #   If String is passed than it will be used as the timestamp.
     #
-    # ==== Returns
-    # String:: The JavaScript include tag(s).
-    #
-    # ==== Examples
+    # @example
     #   js_include_tag 'jquery'
     #   # => <script src="/javascripts/jquery.js" type="text/javascript" charset="utf-8"></script>
     #
@@ -519,6 +525,8 @@ module Merb
     #   js_include_tag :application, :validation, :suffix => ".#{MyApp.version}"
     #   # => <script src="/javascripts/application.1.0.3.js" type="text/javascript" charset="utf-8"></script>
     #   #    <script src="/javascripts/validation.1.0.3.js" type="text/javascript" charset="utf-8"></script>
+    #
+    # @return [String] The JavaScript include tag(s).
     def js_include_tag(*scripts)
       options = scripts.last.is_a?(Hash) ? scripts.pop : {}
       return nil if scripts.empty?
@@ -557,31 +565,33 @@ module Merb
       return tags
     end
 
-    # ==== Parameters
-    # *stylesheets::
+    # Generate CSS include tag(s).
+    #
+    # @param [Array<*String, Hash>] stylesheets
     #   The stylesheets to include. If the last element is a Hash, it will be
     #   used as options (see below). If ".css" is left out from the stylesheet
     #   names, it will be added to them.
     #
     # ==== Options
-    # :charset<~to_s>::
+    # @option opts <String, #to_s> charset
     #   Charset which will be used as value for charset attribute
-    # :bundle<~to_s>::
+    # @option opts <String, #to_s> bundle
     #   The name of the bundle the stylesheets should be combined into.
-    # :media<~to_s>::
+    # @option opts <String, #to_s> media
     #   The media attribute for the generated link element. Defaults to :all.
-    # :prefix<~to_s>::
+    # @option opts <String, #to_s> prefix
     #   prefix to add to include tag, overrides any set in Merb::Plugins.config[:asset_helpers][:css_prefix]
-    # :suffix<~to_s>::
+    # @option opts <String, #to_s> suffix
     #   suffix to add to include tag, overrides any set in Merb::Plugins.config[:asset_helpers][:css_suffix]
-    # :reload<Boolean>::
+    # @option opts <Boolean> reload
     #   Override the Merb::Config[:reload_templates] value. If true, a random query param will be appended
     #   to the css url
+    # @option opts [Boolean, String] :timestamp
+    #   Override the Merb::Config[:asset_timestamp] value. If true, a timestamp query param will be appended
+    #   to the image url. The value will be File.mtime(Merb.dir_for(:public) / path).
+    #   If String is passed than it will be used as the timestamp.
     #
-    # ==== Returns
-    # String:: The CSS include tag(s).
-    #
-    # ==== Examples
+    # @example
     #   css_include_tag 'style'
     #   # => <link href="/stylesheets/style.css" media="all" rel="Stylesheet" type="text/css" charset="utf-8" />
     #
@@ -607,6 +617,8 @@ module Merb
     #
     #  css_include_tag :style, :suffix => ".#{MyApp.version}"
     #  # => <link href="/stylesheets/style.1.0.0.css" media="print" rel="Stylesheet" type="text/css" />
+    #
+    # @return [String] The CSS include tag(s)
     def css_include_tag(*stylesheets)
       options = stylesheets.last.is_a?(Hash) ? stylesheets.pop : {}
       return nil if stylesheets.empty?
