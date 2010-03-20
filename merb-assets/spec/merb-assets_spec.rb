@@ -184,12 +184,12 @@ describe "With Merb::Config[:reload_templates] set," do
   end
 end
 
-describe "With Merb::Config[:asset_timestamps] set," do
+describe "With Merb::Plugins.config[:asset_helpers][:asset_timestamp] set," do
   before(:all) do
-    Merb::Config[:asset_timestamps] = true
+    Merb::Plugins.config[:asset_helpers][:asset_timestamp] = true
   end
   after(:all) do
-    Merb::Config[:asset_timestamps] = false
+    Merb::Plugins.config[:asset_helpers][:asset_timestamp] = false
   end
 
   it "should create image tag with absolute url" do
@@ -358,19 +358,19 @@ describe "External JavaScript and Stylesheets" do
     end
   end
 
-  describe "with Merb::Config[:asset_timestamps] set" do
+  describe "with Merb::Plugins.config[:asset_helpers][:asset_timestamp] set" do
     it "should create a css include tag with a timestamp query string" do
-      Merb::Config[:asset_timestamps] = true
+      Merb::Plugins.config[:asset_helpers][:asset_timestamp] = true
       result = css_include_tag('style.css')
       result.should match(%r{/stylesheets/style.css\?\d+})
-      Merb::Config[:asset_timestamps] = false
+      Merb::Plugins.config[:asset_helpers][:asset_timestamp] = false
     end
 
     it "should create a js include tag with a timestamp query string" do
-      Merb::Config[:asset_timestamps] = true
+      Merb::Plugins.config[:asset_helpers][:asset_timestamp] = true
       result = js_include_tag('jquery.js')
       result.should match(%r{/javascripts/jquery.js\?\d+})
-      Merb::Config[:asset_timestamps] = false
+      Merb::Plugins.config[:asset_helpers][:asset_timestamp] = false
     end
   end
 

@@ -35,10 +35,10 @@ module Merb
     #   Merb::AssetsMixin.append_timestamp_query_string?(options[:timestamp], !absolute)
     #
     # @param [Boolean] intention: true if a timestamp string shall be appended
-    # @param [Boolean] allow_default: true if it's ok to use Merb::Config[:asset_timestamps]
+    # @param [Boolean] allow_default: true if it's ok to use Merb::Plugins.config[:asset_helpers][:asset_timestamp]
     # @return [Boolean] true if a timestamp query string shall be appended
     def self.append_timestamp_query_string?(intention, allow_default = true)
-      intention.nil? && allow_default ? Merb::Config[:asset_timestamps] : intention
+      intention.nil? && allow_default ? Merb::Plugins.config[:asset_helpers][:asset_timestamp] : intention
     end
 
     # Automatically generates link for CSS and JS
@@ -148,7 +148,7 @@ module Merb
     #   Override the Merb::Config[:reload_templates] value. If true, a random query param will be appended
     #   to the image url
     # @option opts [Boolean, String] :timestamp
-    #   Override the Merb::Config[:asset_timestamp] value. If true, a timestamp query param will be appended
+    #   Override the Merb::Plugins.config[:asset_helpers][:asset_timestamp] value. If true, a timestamp query param will be appended
     #   to the image url. The value will be File.mtime(Merb.dir_for(:public) / path).
     #   If String is passed than it will be used as the timestamp.
     #
@@ -496,7 +496,7 @@ module Merb
     #   Override the Merb::Config[:reload_templates] value. If true, a random query param will be appended
     #   to the js url
     # @option opts [Boolean, String] :timestamp
-    #   Override the Merb::Config[:asset_timestamp] value. If true, a timestamp query param will be appended
+    #   Override the Merb::Plugins.config[:asset_helpers][:asset_timestamp] value. If true, a timestamp query param will be appended
     #   to the image url. The value will be File.mtime(Merb.dir_for(:public) / path).
     #   If String is passed than it will be used as the timestamp.
     #
@@ -587,7 +587,7 @@ module Merb
     #   Override the Merb::Config[:reload_templates] value. If true, a random query param will be appended
     #   to the css url
     # @option opts [Boolean, String] :timestamp
-    #   Override the Merb::Config[:asset_timestamp] value. If true, a timestamp query param will be appended
+    #   Override the Merb::Plugins.config[:asset_helper][:asset_timestamp] value. If true, a timestamp query param will be appended
     #   to the image url. The value will be File.mtime(Merb.dir_for(:public) / path).
     #   If String is passed than it will be used as the timestamp.
     #
