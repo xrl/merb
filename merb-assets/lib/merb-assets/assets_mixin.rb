@@ -3,6 +3,9 @@ module Merb
   # linking to assets and other pages, dealing with JavaScript and CSS.
   module AssetsMixin
     include Merb::Assets::AssetHelpers
+
+    ABSOLUTE_PATH_REGEXP = %r{^#{Merb::Const::HTTP}s?://}
+
     # :section: Accessing Assets
     # Merb provides views with convenience methods for links images and other
     # assets.
@@ -25,6 +28,10 @@ module Merb
     #   Merb::AssetsMixin.append_random_query_string?(options[:reload], !absolute)
     def self.append_random_query_string?(intention, allow_default = true)
       intention.nil? && allow_default ? Merb::Config[:reload_templates] : intention
+    end
+
+    def self.append_timestamp_query_string?(intention, allow_default = true)
+      intention.nil? && allow_default ? Merb::Config[:asset_timestamps] : intention
     end
 
     # ==== Parameters
@@ -168,7 +175,7 @@ module Merb
         opts[:src] = "#{Merb::Config[:path_prefix]}#{img}"
       else
         opts[:path] ||=
-          if img =~ %r{^https?://}
+          if img =~ ABSOLUTE_PATH_REGEXP
             absolute = true
             ''
           else
@@ -177,10 +184,11 @@ module Merb
         opts[:src] ||= opts.delete(:path) + img
       end
 
-      if AssetsMixin.append_random_query_string?(opts.delete(:reload), !absolute)
-        opts[:src] += opts[:src].include?('?') ? "&#{random_query_string}" : "?#{random_query_string}"
-      end
-
+      opts[:src] = append_query_string(opts[:src],
+                                       opts.delete(:reload),
+                                       opts.delete(:timestamp),
+                                       !absolute) 
+      
       %{<img #{ opts.to_xml_attributes } />}
     end
 
@@ -534,9 +542,9 @@ module Merb
           src.insert(-ext_length,js_suffix)
         end
 
-        if AssetsMixin.append_random_query_string?(options[:reload])
-          src += src.include?('?') ? "&#{random_query_string}" : "?#{random_query_string}"
-        end
+        src = append_query_string(src,
+                                  options.delete(:reload),
+                                  options.delete(:timestamp))
 
         attrs = {
           :src => src,
@@ -614,6 +622,8 @@ module Merb
 
       tags = ""
 
+      reload = options.delete(:reload)
+      timestamp = options.delete(:timestamp)
       for stylesheet in stylesheets
         href = css_prefix.to_s + asset_path(:stylesheet, stylesheet)
         
@@ -622,9 +632,7 @@ module Merb
           href.insert(-ext_length,css_suffix)
         end
         
-        if AssetsMixin.append_random_query_string?(options[:reload])
-          href += href.include?('?') ? "&#{random_query_string}" : "?#{random_query_string}"
-        end
+        href = append_query_string(href, reload, timestamp)
 
         attrs = {
           :href => href,
@@ -761,9 +769,37 @@ module Merb
         extracted
       end
     end
+
+    def append_query_string(path, random, timestamp, allow_default = true)
+      random = AssetsMixin.append_random_query_string?(random, allow_default)
+      timestamp = AssetsMixin.append_timestamp_query_string?(timestamp, allow_default) 
+
+      query_string = if random
+                       random_query_string
+                     elsif timestamp
+                       timestamp == true ? timestamp_for_asset(path) : timestamp
+                     end
+
+      if query_string
+        path + (path.include?('?') ? "&#{query_string}" : "?#{query_string}")
+      else
+        path
+      end
+    end
     
     def random_query_string
       Time.now.strftime("%m%d%H%M%S#{rand(99)}")
     end
+
+    def timestamp_for_asset(path)
+      if path !~ ABSOLUTE_PATH_REGEXP
+        begin
+          File.mtime(Merb.dir_for(:public) / path).to_i
+        rescue
+          Merb.logger.warn "#{self.class}: Unable to get mtime for #{path}"
+        end 
+      end
+    end
+
   end
 end
