@@ -1,3 +1,8 @@
+== Merb 1.1.1 "" 2010-04-30
+
+* #1320 Fixed problem with streaming on mongrel, introduced in 1.1.0
+* #1321 Use Rack's ContentLength middleware, merb's is less robust
+
 == 1.1.0 "Black Hole" 2010-03-22
 
 * Ruby 1.9 support. The big one. Merb now runs on ruby 1.9.1. This mandated some
