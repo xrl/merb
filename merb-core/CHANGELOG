@@ -2,6 +2,7 @@
 
 * #1320 Fixed problem with streaming on mongrel, introduced in 1.1.0
 * #1321 Use Rack's ContentLength middleware, merb's is less robust
+* Fixed problem with setting multiple cookies on mongrel.
 
 == 1.1.0 "Black Hole" 2010-03-22
 
