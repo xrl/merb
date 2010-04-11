@@ -237,7 +237,6 @@ Gem::Specification.new do |s|
      "spec/merb_helpers_form_spec.rb",
      "spec/merb_helpers_tag_helper_spec.rb",
      "spec/merb_helpers_text_spec.rb",
-     "spec/merb_test.log",
      "spec/numeric_extlib_spec.rb",
      "spec/ordinalize_spec.rb",
      "spec/spec.opts",
