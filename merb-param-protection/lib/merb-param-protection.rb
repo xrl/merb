@@ -1,30 +1,5 @@
 require "merb-core"
 
-# This plugin exposes two new controller methods which allow us to simply and flexibly filter the parameters available within the controller.
-
-# Setup:
-# The request sets:
-# params => { :post => { :title => "ello", :body => "Want it", :status => "green", :author_id => 3, :rank => 4 } }
-#
-# Example 1: params_accessable
-# MyController < Application
-#   params_accessible :post => [:title, :body]
-# end
-
-# params.inspect # => { :post => { :title => "ello", :body => "Want it" } }
-
-# So we see that params_accessible removes everything except what is explictly specified.
-
-# Example 2: params_protected
-# MyOtherController < Application
-#   params_protected :post => [:status, :author_id]
-# end
-
-# params.inspect # => { :post => { :title => "ello", :body => "Want it", :rank => 4 } }
-
-# We also see that params_protected removes ONLY those parameters explicitly specified.
-
-
 module Merb
   module ParamsFilter
     module ControllerMixin
@@ -42,28 +17,63 @@ module Merb
       end
 
       module ClassMethods
+        
         # Ensures these parameters are sent for the object
         #
-        #   params_accessible :post => [:title, :body]
+        # ==== Parameters
+        # args:: Params that will be filtered
         #
+        # ==== Example
+        #   # The request sets:
+        #   params => { :post => { :title => "ello", :body => "Want it", :status => "green", :author_id => 3, :rank => 4 } }
+        # 
+        #   MyController < Application
+        #     params_accessible :post => [:title, :body]
+        #   end
+        # 
+        #   params.inspect # => { :post => { :title => "ello", :body => "Want it" } }
+        #
+        # So we see that params_accessible removes everything except what is explictly specified.
+        #
+        # :api: public
         def params_accessible(args = {})
           assign_filtered_params(:accessible_params_args, args)
         end
 
         # Protects parameters of an object
         #
-        #   params_protected :post => [:status, :author_id]
+        # ==== Parameters
+        # args:: Params that will be filtered
         #
+        # ==== Example
+        #   # The request sets:
+        #   params => { :post => { :title => "ello", :body => "Want it", :status => "green", :author_id => 3, :rank => 4 } }
+        #
+        #   MyController < Application
+        #     params_protected :post => [:status, :author_id]
+        #   end
+        #
+        #   params.inspect # => { :post => { :title => "ello", :body => "Want it", :rank => 4 } }
+        #
+        # So we see that params_protected removes ONLY those parameters explicitly specified.
+        #
+        # :api: public
         def params_protected(args = {})
           assign_filtered_params(:protected_params_args, args)
         end
 
         # Filters parameters out from the default log string
-        #  Params will still be passed to the controller properly, they will
-        #  show up as [FILTERED] in the merb logs.
         #
-        # log_params_filtered :password, 'token'
+        # Params will still be passed to the controller properly, they will
+        # show up as [FILTERED] in the merb logs.
         #
+        # ==== Parameters
+        # args:: Params that will be filtered
+        #
+        # ==== Example
+        #   log_params_filtered :password, 'token'
+        #
+        # :api: public
         def log_params_filtered(*args)
           self.log_params_args ||= []
           self.log_params_args += args.collect { |arg| arg.to_s }
@@ -115,7 +125,6 @@ module Merb
           end
         end
       end
-
     end
 
     module RequestMixin
@@ -123,8 +132,14 @@ module Merb
 
       # Removes specified parameters of an object
       #
+      # ==== Parameters
+      # obj<Symbol>:: Params key
+      # attrs<Array>:: Attributes to restrict
+      # 
+      # ==== Example
       #   remove_params_from_object(:post, [:status, :author_id])
       #
+      # :api: plugin
       def remove_params_from_object(obj, attrs = [])
         unless params[obj].nil?
           filtered = params
@@ -135,8 +150,14 @@ module Merb
 
       # Restricts parameters of an object
       #
+      # ==== Parameters
+      # obj<Symbol>:: Params key
+      # attrs<Array>:: Attributes to restrict
+      # 
+      # ==== Example
       #   restrict_params(:post, [:title, :body])
       #
+      # :api: plugin
       def restrict_params(obj, attrs = [])
         # Make sure the params for the object exists
         unless params[obj].nil?
@@ -162,6 +183,7 @@ Merb::Controller.send(:include, Merb::ParamsFilter::ControllerMixin)
 Merb::Request.send(:include, Merb::ParamsFilter::RequestMixin)
 
 class Merb::Controller
+  # Filters parameters so they are not showed in logs
   def self._filter_params(params)
     return params if self.log_params_args.nil?
     result = { }
