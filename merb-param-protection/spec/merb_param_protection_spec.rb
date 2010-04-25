@@ -15,10 +15,43 @@ describe "merb-param-protection" do
     end
 
     it "should remove the parameters from the request that are not accessible" do
-      pending("duplication?")
-      @params_accessible_controller = ParamsAccessibleController.new( fake_request )
-      # FIXME : this call to dispatch is where I break
-      @params_accessible_controller.dispatch('create')
+      c = dispatch_to(ParamsAccessibleController, :create,
+        :customer => {:name => "teamon", :phone => "123456789", :email => "my@mail", :activated? => "yes", :password => "secret"}, 
+        :address => {:street => "Merb Street 4", :zip => "98765", :long => "Meeeeerrrrrrbbbb sooo looong", :lat => "123"},
+        :post => {:title => "First port", :body => "Some long lorem ipsum stuff", :date => "today"}
+      )
+      c.params[:customer][:name].should == "teamon"
+      c.params[:customer][:phone].should == "123456789"
+      c.params[:customer][:email].should == "my@mail"
+      c.params[:customer].should_not have_key(:activated?)
+      c.params[:customer].should_not have_key(:password)
+      c.params[:address][:street].should == "Merb Street 4"
+      c.params[:address][:zip].should == "98765"
+      c.params[:address].should_not have_key(:long)
+      c.params[:address].should_not have_key(:lat)
+      c.params[:post][:title].should == "First port"
+      c.params[:post][:body].should == "Some long lorem ipsum stuff"
+      c.params[:post].should_not have_key(:date)
+    end
+    
+    it "should remove the parameters from the request that are protected" do
+      c = dispatch_to(ParamsProtectedController, :create,
+        :customer => {:name => "teamon", :phone => "123456789", :email => "my@mail", :activated? => "yes", :password => "secret"}, 
+        :address => {:street => "Merb Street 4", :zip => "98765", :long => "Meeeeerrrrrrbbbb sooo looong", :lat => "123"},
+        :post => {:title => "First port", :body => "Some long lorem ipsum stuff", :date => "today"}
+      )
+      c.params[:customer][:name].should == "teamon"
+      c.params[:customer][:phone].should == "123456789"
+      c.params[:customer][:email].should == "my@mail"
+      c.params[:customer].should_not have_key(:activated?)
+      c.params[:customer].should_not have_key(:password)
+      c.params[:address][:street].should == "Merb Street 4"
+      c.params[:address][:zip].should == "98765"
+      c.params[:address].should_not have_key(:long)
+      c.params[:address].should_not have_key(:lat)
+      c.params[:post][:title].should == "First port"
+      c.params[:post][:body].should == "Some long lorem ipsum stuff"
+      c.params[:post][:date].should == "today"
     end
   end
 
