@@ -106,16 +106,25 @@ describe "merb-param-protection" do
     Merb::Controller.callable_actions.should be_empty
   end
 
-end
-
-
-
-describe "log params filtering" do
-  it "should filter :password param" do
-    c = dispatch_to(LogParamsFiltered, :index, :password => "topsecret", :other => "not so secret")
-    c.params[:password].should == "topsecret"
-    c.params[:other].should == "not so secret"
-    c.class._filter_params(c.params)["password"].should == "[FILTERED]"
-    c.class._filter_params(c.params)["other"].should == "not so secret"
+  describe "log params filtering" do
+    it "should filter params" do
+      c = dispatch_to(LogParamsFiltered, :index, :password => "topsecret", :password_confirmation => "topsecret",
+                                                 :card_number => "1234567890", :other => "not so secret")
+      c.params[:password].should == "topsecret"
+      c.params[:password_confirmation].should == "topsecret"
+      c.params[:card_number].should == "1234567890"
+      c.params[:other].should == "not so secret"
+      
+      filtered = c.class._filter_params(c.params)
+      filtered["password"].should == "[FILTERED]"
+      filtered["password_confirmation"].should == "[FILTERED]"
+      filtered["card_number"].should == "[FILTERED]"
+      filtered["other"].should == "not so secret"
+    end
   end
+
 end
+
+
+
+

@@ -65,7 +65,8 @@ module Merb
         # log_params_filtered :password, 'token'
         #
         def log_params_filtered(*args)
-          self.log_params_args = args.collect { |arg| arg.to_sym }
+          self.log_params_args ||= []
+          self.log_params_args += args.collect { |arg| arg.to_sym }
         end
 
         private

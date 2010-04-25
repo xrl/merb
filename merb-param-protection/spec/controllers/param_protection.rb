@@ -1,5 +1,7 @@
 class LogParamsFiltered < Merb::Controller
-  log_params_filtered :password
+  log_params_filtered :password, :password_confirmation
+  log_params_filtered :card_number
+  # log_params_filtered :user => [:age]
   
   def index
     params
