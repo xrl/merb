@@ -25,13 +25,6 @@ require "merb-core"
 # We also see that params_protected removes ONLY those parameters explicitly specified.
 
 
-# Merb gives you a Merb::Plugins.config hash...feel free to put your stuff in your piece of it
-#Merb::Plugins.config[:merb_param_protection] = {
-  #:chickens => false
-#}
-
-#Merb::Plugins.add_rakefiles "merb_param_protection/merbtasks"
-
 module Merb
   module ParamsFilter
     module ControllerMixin
