@@ -66,7 +66,7 @@ module Merb
         #
         def log_params_filtered(*args)
           self.log_params_args ||= []
-          self.log_params_args += args.collect { |arg| arg.to_sym }
+          self.log_params_args += args.collect { |arg| arg.to_s }
         end
 
         private
@@ -166,7 +166,7 @@ class Merb::Controller
     return params if self.log_params_args.nil?
     result = { }
     params.each do |k,v|
-      result[k] = (self.log_params_args.include?(k.to_sym) ? '[FILTERED]' : v)
+      result[k] = (self.log_params_args.include?(k.to_s) ? '[FILTERED]' : v)
     end
     result
   end
