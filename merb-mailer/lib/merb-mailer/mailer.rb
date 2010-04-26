@@ -66,7 +66,8 @@ module Merb
         end
       end
       smtp.start(config[:domain], config[:user], config[:pass], config[:auth]) { |smtp|
-        to = @mail.to.is_a?(String) ? @mail.to.split(/[,;]/) : @mail.to
+        @mail.to = [@mail.to] unless @mail.to.is_a?(Array)
+        to = @mail.to.inject([]) {|r, e| r + e.split(/[,;]/) }.map {|e| e.strip}
         smtp.send_message(@mail.to_s, @mail.from.first, to)
       }
     end
