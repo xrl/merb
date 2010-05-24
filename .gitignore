@@ -16,3 +16,4 @@ lib/merb-more.rb
 ./gems
 *.diff
 *.gem
+.rvmrc
