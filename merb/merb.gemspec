@@ -3,9 +3,11 @@
 
 # Assume a typical dev checkout to fetch the current version information
 require File.expand_path('../../merb-core/lib/merb-core/version', __FILE__)
-require File.expand_path('../../../merb_datamapper/lib/merb_datamapper/version', __FILE__)
 
 require 'date'
+
+# What version of DM we need
+DM_VERSION_REQUIREMENT = '>= 0.10.0'.freeze
 
 Gem::Specification.new do |gem|
   gem.name        = 'merb'
@@ -34,14 +36,8 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'merb-param-protection', "= #{Merb::VERSION}"
   gem.add_dependency 'merb-slices',           "= #{Merb::VERSION}"
   gem.add_dependency 'merb_datamapper',       "= #{Merb::VERSION}"
-  gem.add_dependency 'do_sqlite3',            Merb::DataMapper::DM_VERSION_REQUIREMENT
-  gem.add_dependency 'dm-timestamps',         Merb::DataMapper::DM_VERSION_REQUIREMENT
-  gem.add_dependency 'dm-types',              Merb::DataMapper::DM_VERSION_REQUIREMENT
-  gem.add_dependency 'dm-aggregates',         Merb::DataMapper::DM_VERSION_REQUIREMENT
-  gem.add_dependency 'dm-validations',        Merb::DataMapper::DM_VERSION_REQUIREMENT
-  gem.add_dependency 'dm-sweatshop',          Merb::DataMapper::DM_VERSION_REQUIREMENT
-  gem.add_dependency 'dm-serializer',         Merb::DataMapper::DM_VERSION_REQUIREMENT
-  gem.add_dependency 'dm-constraints',        Merb::DataMapper::DM_VERSION_REQUIREMENT
+  gem.add_dependency 'data_mapper',           DM_VERSION_REQUIREMENT
+  gem.add_dependency 'do_sqlite3',            DM_VERSION_REQUIREMENT
 
   # Requirements
   gem.requirements << 'install the json gem to get faster json parsing'
