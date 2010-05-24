@@ -1,45 +1,8 @@
 require 'rubygems'
 require 'rake'
 
-# Assume a typical dev checkout to fetch the current merb-core version
-require File.expand_path('../../merb-core/lib/merb-core/version', __FILE__)
-
 # Load this library's version information
 require File.expand_path('../lib/merb-haml/version', __FILE__)
-
-begin
-
-  gem 'jeweler', '~> 1.4'
-  require 'jeweler'
-
-  Jeweler::Tasks.new do |gemspec|
-
-    gemspec.version     = Merb::Haml::VERSION.dup
-
-    gemspec.name        = "merb-haml"
-    gemspec.description = "Merb plugin for HAML support"
-    gemspec.summary     = "Merb plugin that provides support for writing view template with HAML"
-
-    gemspec.authors     = [ "Yehuda Katz" ]
-    gemspec.email       = "ykatz@engineyard.com"
-    gemspec.homepage    = "http://merbivore.com/"
-
-    gemspec.files       = %w(Generators LICENSE Rakefile README TODO) + Dir['{lib,spec}/**/*']
-
-    # Runtime dependencies
-    gemspec.add_dependency 'merb-core', "~> #{Merb::VERSION}"
-    gemspec.add_dependency 'haml',      '>= 2.0.3'
-
-    # Development dependencies
-    gemspec.add_development_dependency 'rspec', '>= 1.2.9'
-
-  end
-
-  Jeweler::GemcutterTasks.new
-
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
-end
 
 require 'spec/rake/spectask'
 Spec::Rake::SpecTask.new(:spec) do |spec|
