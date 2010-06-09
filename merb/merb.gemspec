@@ -38,6 +38,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'merb_datamapper',       "= #{Merb::VERSION}"
   gem.add_dependency 'data_mapper',           DM_VERSION_REQUIREMENT
   gem.add_dependency 'do_sqlite3',            DM_VERSION_REQUIREMENT
+  gem.add_dependency 'rspec'
 
   # Requirements
   gem.requirements << 'install the json gem to get faster json parsing'
