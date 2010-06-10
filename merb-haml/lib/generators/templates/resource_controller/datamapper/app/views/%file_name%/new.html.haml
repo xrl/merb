@@ -6,7 +6,7 @@
 
 = error_messages_for @<%= singular_model %>
 
-= form_for(@<%= singular_model %>, :action => url(:<%= plural_model %>) ) do
+= form_for(@<%= singular_model %>, :action => resource(:<%= plural_model %>) ) do
 <% for property in properties.select{|p| !p.key?} -%>
   %p
     %b
@@ -17,4 +17,4 @@
   %p
     = submit "Create"
 
-= link_to 'Back', url(:<%= plural_model %>)
+= link_to 'Back', resource(:<%= plural_model %>)

@@ -6,7 +6,7 @@
     app/views/<%= file_name %>/edit.html.haml
 = error_messages_for @<%= singular_model %>
 
-= form_for(@<%= singular_model %>, :action => url(:<%= singular_model %>, @<%= singular_model %>)) do
+= form_for(@<%= singular_model %>, :action => resource(@<%= singular_model %>)) do
 <% for property in properties.select{|p| !p.key?} -%>
   %p
     %b
@@ -17,6 +17,6 @@
   %p
     = submit "Update"
 
-= link_to 'Show', url(:<%= singular_model %>, @<%= singular_model %>)
+= link_to 'Show', resource(@<%= singular_model %>)
 |
-= link_to 'Back', url(:<%= plural_model %>)
+= link_to 'Back', resource(:<%= plural_model %>)

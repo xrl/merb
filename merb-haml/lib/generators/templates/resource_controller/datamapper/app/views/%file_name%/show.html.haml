@@ -11,6 +11,6 @@
   =h @<%= singular_model %>.<%= property.getter %>
 <% end -%>
 
-= link_to 'Edit',  url(:edit_<%= singular_model %>,  @<%= singular_model %>)
+= link_to 'Edit',  resource(@<%= singular_model %>, :edit)
 |
-= link_to 'Back', url(:<%= plural_model %>)
+= link_to 'Back', resource(:<%= plural_model %>)

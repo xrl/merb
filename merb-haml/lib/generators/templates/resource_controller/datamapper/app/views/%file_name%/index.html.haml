@@ -17,8 +17,8 @@
         =h <%= singular_model %>.<%= property.getter %>
 <% end -%>
       %td
-        = link_to 'Show', url(:<%= singular_model %>, <%= singular_model %>)
+        = link_to 'Show', resource(<%= singular_model %>)
       %td
-        = link_to 'Edit', url(:edit_<%= singular_model %>,  <%= singular_model %>)
+        = link_to 'Edit', resource(<%= singular_model %>, :edit)
 
-= link_to 'New', url(:new_<%= singular_model %>)
+= link_to 'New', resource(:<%= plural_model %>, :new)
