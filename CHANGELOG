@@ -1,3 +1,55 @@
+== Merb 1.1.1 "In between the notes" 2010-06-14
+
+* Spec fixes to get more green and 1.8.x compat
+
+* Support for testing controller with Webrat directly from the specs.
+  For this to work you need to the spec_helper.rb this:
+	Spec::Runner.configure do |config|
+		config.include(Merb::Test::Webrat)
+	end
+
+	If you use cucumber this doesn't concern you.
+
+*	Merb stack middlewares switched from the pure Rack versions to the
+  merbified versions supporting the deferred actions in Thin and Ebb.
+
+* Refactoring of the gemspecs into standalone files and removing 
+  generation using Rakefile and Jeweler.
+
+* [merb-haml] Update generated resource templates to use resource()
+	helper (teamon)
+
+* [merb] Meta gem must depend on the RSpec gem because it's default 
+	testing framework.
+
+* [merb-param-protection] Many updates to the gem, including fixing 
+  memleaks and specs (teamon)
+
+* [merb-mailer] Fixing multiple recipients delivery for SMTP.
+
+* [merb-core] Fix logging the incomming parameters even if not routed 
+  to the proper controller. (jontus)
+
+* [merb-gen] Changing default source to rubygems.org
+
+* [merb-core] Removed runtime dependency on the RSpec gem.
+
+* [merb-core, merb-gen] Change default server from Mongrel to Thin.
+
+* [merb-core] Removing Allison RDoc template and using the default Darkfish.
+
+* [merb-core] Fixed double unescaping of Merb::Request#message.
+
+* [merb-core] Fix bug in header setting in mongrel
+
+* [merb-core] Use Rack's ContentLength middleware
+
+* [merb-core] Don't set Content-Length in mongrel
+
+* [merb-core] Fixing Session ID Collision Vulnerability
+
+* [merb-core] Using Ruby 1.9.x SecureRandom lib to generate session IDs.
+
 == Merb 1.1.0 "Black Hole" 2010-03-22
 
 === New Features
