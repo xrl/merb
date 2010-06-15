@@ -8,6 +8,8 @@ require 'date'
 
 # What version of DM we need
 DM_VERSION_REQUIREMENT = '>= 0.10.0'.freeze
+MERB_AUTH_VERSION_REQUIREMENT = '~> 1.1'.freeze
+MERB_DATAMAPPER_VERSION_REQUIREMENT = '~> 1.1'.freeze
 
 Gem::Specification.new do |gem|
   gem.name        = 'merb'
@@ -26,7 +28,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency 'merb-action-args',      "= #{Merb::VERSION}"
   gem.add_dependency 'merb-assets',           "= #{Merb::VERSION}"
-  gem.add_dependency 'merb-auth',             "= #{Merb::VERSION}"
+  gem.add_dependency 'merb-auth',             MERB_AUTH_VERSION_REQUIREMENT
   gem.add_dependency 'merb-cache',            "= #{Merb::VERSION}"
   gem.add_dependency 'merb-exceptions',       "= #{Merb::VERSION}"
   gem.add_dependency 'merb-gen',              "= #{Merb::VERSION}"
@@ -35,7 +37,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'merb-mailer',           "= #{Merb::VERSION}"
   gem.add_dependency 'merb-param-protection', "= #{Merb::VERSION}"
   gem.add_dependency 'merb-slices',           "= #{Merb::VERSION}"
-  gem.add_dependency 'merb_datamapper',       "= #{Merb::VERSION}"
+  gem.add_dependency 'merb_datamapper',       MERB_DATAMAPPER_VERSION_REQUIREMENT
   gem.add_dependency 'data_mapper',           DM_VERSION_REQUIREMENT
   gem.add_dependency 'do_sqlite3',            DM_VERSION_REQUIREMENT
   gem.add_dependency 'rspec'
