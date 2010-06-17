@@ -1,3 +1,10 @@
+== Merb 1.1.2 "Dependency hell" 2010-06-17
+
+* [merb-core] Gracefully fail when RSpec is not installed but used.
+* [merb-core] Because 1.1.x still use the Bundler we have to depend on it.
+* [merb] Require independent versions of the merb-auth and merb_datamapper.
+
+
 == Merb 1.1.1 "In between the notes" 2010-06-14
 
 * Spec fixes to get more green and 1.8.x compat
