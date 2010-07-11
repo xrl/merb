@@ -1,3 +1,9 @@
+== Merb 1.1.3 "Attack of the Gemfiles" 2010-07-11
+
+* [merb-gen]   Fix generated Gemfile depends to actually work for a fresh gemfile.
+* [merb-core]  Make rake audit:routes more readable.
+
+
 == Merb 1.1.2 "Dependency hell" 2010-06-17
 
 * [merb-core] Gracefully fail when RSpec is not installed but used.
