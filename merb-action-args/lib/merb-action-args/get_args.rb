@@ -1,9 +1,14 @@
 if RUBY_PLATFORM == "java"
   require File.dirname(__FILE__) / "jruby_args"
-elsif RUBY_VERSION < "1.9" and !(defined? RUBY_ENGINE and RUBY_ENGINE == "rbx")
-  require File.dirname(__FILE__) / "mri_args"
 else
-  require File.dirname(__FILE__) / "vm_args"
+  begin
+    # 1.8: use ParseTree, which is not supported on 1.9 and Rubinius
+    require File.dirname(__FILE__) / "mri_args"
+  rescue LoadError
+    # use Method#parameters
+    raise unless Object.method(:inspect).respond_to? :parameters
+    require File.dirname(__FILE__) / "vm_args"
+  end
 end
 
 class UnboundMethod

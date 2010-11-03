@@ -1,9 +1,5 @@
 module GetArgs
   def get_args
-    unless respond_to?(:parameters)
-      raise NotImplementedError, "Ruby #{RUBY_VERSION} doesn't support #{self.class}#parameters"
-    end
-
     required = []
     optional = []
 
