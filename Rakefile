@@ -7,7 +7,7 @@ ROOT = File.dirname(__FILE__)
 merb_stack_gems = [
   { :name => 'merb-core',             :path => "#{ROOT}/merb-core",             :doc => :yard },
   { :name => 'merb-action-args',      :path => "#{ROOT}/merb-action-args",      :doc => :yard },
-  { :name => 'merb-assets',           :path => "#{ROOT}/merb-assets",           :doc => :rdoc },
+  { :name => 'merb-assets',           :path => "#{ROOT}/merb-assets",           :doc => :yard },
   { :name => 'merb-slices',           :path => "#{ROOT}/merb-slices",           :doc => :rdoc },
   { :name => 'merb-cache',            :path => "#{ROOT}/merb-cache",            :doc => :rdoc },
   { :name => 'merb-gen',              :path => "#{ROOT}/merb-gen",              :doc => :rdoc },
