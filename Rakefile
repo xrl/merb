@@ -5,20 +5,20 @@ require 'fileutils'
 ROOT = File.dirname(__FILE__)
 
 merb_stack_gems = [
-  { :name => 'merb-core',             :path => "#{ROOT}/merb-core"             },
-  { :name => 'merb-action-args',      :path => "#{ROOT}/merb-action-args"      },
-  { :name => 'merb-assets',           :path => "#{ROOT}/merb-assets"           },
-  { :name => 'merb-slices',           :path => "#{ROOT}/merb-slices"           },
-  { :name => 'merb-cache',            :path => "#{ROOT}/merb-cache"            },
-  { :name => 'merb-gen',              :path => "#{ROOT}/merb-gen"              },
-  { :name => 'merb-haml',             :path => "#{ROOT}/merb-haml"             },
-  { :name => 'merb-helpers',          :path => "#{ROOT}/merb-helpers"          },
-  { :name => 'merb-mailer',           :path => "#{ROOT}/merb-mailer"           },
-  { :name => 'merb-param-protection', :path => "#{ROOT}/merb-param-protection" },
-  { :name => 'merb-exceptions',       :path => "#{ROOT}/merb-exceptions"       },
-  { :name => 'merb-auth',             :path => "#{ROOT}/../merb-auth"          },
-  { :name => 'merb_datamapper',       :path => "#{ROOT}/../merb_datamapper"    },
-  { :name => 'merb',                  :path => "#{ROOT}/merb"                  }
+  { :name => 'merb-core',             :path => "#{ROOT}/merb-core",             :doc => :yard },
+  { :name => 'merb-action-args',      :path => "#{ROOT}/merb-action-args",      :doc => :yard },
+  { :name => 'merb-assets',           :path => "#{ROOT}/merb-assets",           :doc => :rdoc },
+  { :name => 'merb-slices',           :path => "#{ROOT}/merb-slices",           :doc => :rdoc },
+  { :name => 'merb-cache',            :path => "#{ROOT}/merb-cache",            :doc => :rdoc },
+  { :name => 'merb-gen',              :path => "#{ROOT}/merb-gen",              :doc => :rdoc },
+  { :name => 'merb-haml',             :path => "#{ROOT}/merb-haml",             :doc => :rdoc },
+  { :name => 'merb-helpers',          :path => "#{ROOT}/merb-helpers",          :doc => :yard },
+  { :name => 'merb-mailer',           :path => "#{ROOT}/merb-mailer",           :doc => :rdoc },
+  { :name => 'merb-param-protection', :path => "#{ROOT}/merb-param-protection", :doc => :rdoc },
+  { :name => 'merb-exceptions',       :path => "#{ROOT}/merb-exceptions",       :doc => :rdoc },
+  { :name => 'merb-auth',             :path => "#{ROOT}/../merb-auth",          :doc => :rdoc },
+  { :name => 'merb_datamapper',       :path => "#{ROOT}/../merb_datamapper",    :doc => :rdoc },
+  { :name => 'merb',                  :path => "#{ROOT}/merb",                  :doc => :rdoc }
 ]
 
 
@@ -65,6 +65,40 @@ task :spec do
   merb_stack_gems[0..-2].each do |gem_info|
     Dir.chdir(gem_info[:path]) { rake_command "spec" }
   end
+end
+
+task :doc => [:yard]
+begin
+  require 'yard'
+
+  YARD::Rake::YardocTask.new do |t|
+    paths = merb_stack_gems.select {|g| g[:doc] == :yard}
+
+    # add source files to documentation generation
+    t.files = []
+    t.files += paths.collect {|g| File.join(g[:path], 'lib', '**', '*.rb')}
+
+    # add auxiliary documentation files (in gems "docs" directory)
+    t.files << '-'
+    paths.each do |g|
+      docs_path = File.join(g[:path], 'docs')
+      begin
+        if File.stat(docs_path).directory?
+          t.files << File.join(docs_path, '*.mkd')
+        end
+      rescue
+        # skip over gems without a "docs" directory
+      end
+    end
+
+    t.options = [
+      '--output-dir', 'doc/yard',
+      '--tag', 'overridable:Overridable',
+      '--markup', 'markdown',
+    ]
+  end
+rescue LoadError
+  # just skip the Rake task if YARD is not installed
 end
 
 task :default => 'spec'

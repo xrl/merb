@@ -20,18 +20,16 @@ end
 task :default => :spec
 
 task :doc => [:yard]
-namespace :doc do
-  begin
+begin
   require 'yard'
 
   YARD::Rake::YardocTask.new do |t|
-    t.files   = ['README.mkd', 'lib/**/*.rb']
+    t.files   = [File.join('lib', '**', '*.rb'), '-', File.join('docs', '*.mkd')]
     t.options = [
       '--output-dir', 'doc/yard',
       '--tag', 'overridable:Overridable',
       '--markup', 'markdown',
     ]
   end
-  rescue
-  end
+rescue
 end
