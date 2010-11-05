@@ -1,4 +1,5 @@
-Merb::Router.extensions do
+# Methods that are added to the {Merb::Router router}.
+module Merb::Slices::RouterExtensions
 
   # Add all known slices to the router.
   #
@@ -10,9 +11,9 @@ Merb::Router.extensions do
   #   their settings. Set `:path` (or use a string) if you want to
   #   override what appears on the URL.
   #
-  # @yield A new {Behavior} instance is yielded in the block for nested
-  #   routes.
-  # @yieldparam [Behavior] ns The namespace behavior object.
+  # @yield A new {Merb::Router::Behavior} instance is yielded in the block
+  #   for nested routes.
+  # @yieldparam [Merb::Router::Behavior] ns The namespace behavior object.
   #
   # @example
   #   all_slices('BlogSlice' => 'blog', 'ForumSlice' => { :path => 'forum' })
@@ -29,11 +30,11 @@ Merb::Router.extensions do
   # @param [Hash, String] options Optional hash, set `:path` if you want
   #   to override what appears on the URL.
   #
-  # @yield A new {Behavior} instance is yielded in the block for nested
-  #   routes - runs before the slice routes are setup.
-  # @yieldparam [Behavior] ns The namespace behavior object.
+  # @yield A new {Merb::Router::Behavior} instance is yielded in the block
+  #   for nested routes. This runs before the slice routes are setup.
+  # @yieldparam [Merb::Router::Behavior] ns The namespace behavior object.
   #
-  # @return [Behaviour] The current router context.
+  # @return [Merb::Router::Behaviour] The current router context.
   #
   # @note If a slice has no routes at all, the activate hook won't be
   #   executed.
@@ -77,4 +78,8 @@ Merb::Router.extensions do
     add_slice(slice_module, options.merge(:reset_controller_prefix => true), &block)
   end
 
+end
+
+Merb::Router.extensions do
+  include Merb::Slices::RouterExt
 end

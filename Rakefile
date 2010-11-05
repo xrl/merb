@@ -8,7 +8,7 @@ merb_stack_gems = [
   { :name => 'merb-core',             :path => "#{ROOT}/merb-core",             :doc => :yard },
   { :name => 'merb-action-args',      :path => "#{ROOT}/merb-action-args",      :doc => :yard },
   { :name => 'merb-assets',           :path => "#{ROOT}/merb-assets",           :doc => :yard },
-  { :name => 'merb-slices',           :path => "#{ROOT}/merb-slices",           :doc => :rdoc },
+  { :name => 'merb-slices',           :path => "#{ROOT}/merb-slices",           :doc => :yard },
   { :name => 'merb-cache',            :path => "#{ROOT}/merb-cache",            :doc => :yard },
   { :name => 'merb-gen',              :path => "#{ROOT}/merb-gen",              :doc => :rdoc },
   { :name => 'merb-haml',             :path => "#{ROOT}/merb-haml",             :doc => :rdoc },
@@ -95,6 +95,8 @@ begin
       '--output-dir', 'doc/yard',
       '--tag', 'overridable:Overridable',
       '--markup', 'markdown',
+      '--exclude', '/generators/',
+      '-e', 'yard/merbext.rb',
     ]
   end
 rescue LoadError
