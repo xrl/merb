@@ -98,6 +98,10 @@ begin
       '--exclude', '/generators/',
       '-e', 'yard/merbext.rb',
     ]
+
+    t.before = Proc.new do
+      YARD::Templates::Engine.register_template_path File.join(ROOT, 'yard', 'templates')
+    end
   end
 rescue LoadError
   # just skip the Rake task if YARD is not installed
