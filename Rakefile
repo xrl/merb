@@ -9,7 +9,7 @@ merb_stack_gems = [
   { :name => 'merb-action-args',      :path => "#{ROOT}/merb-action-args",      :doc => :yard },
   { :name => 'merb-assets',           :path => "#{ROOT}/merb-assets",           :doc => :yard },
   { :name => 'merb-slices',           :path => "#{ROOT}/merb-slices",           :doc => :rdoc },
-  { :name => 'merb-cache',            :path => "#{ROOT}/merb-cache",            :doc => :rdoc },
+  { :name => 'merb-cache',            :path => "#{ROOT}/merb-cache",            :doc => :yard },
   { :name => 'merb-gen',              :path => "#{ROOT}/merb-gen",              :doc => :rdoc },
   { :name => 'merb-haml',             :path => "#{ROOT}/merb-haml",             :doc => :rdoc },
   { :name => 'merb-helpers',          :path => "#{ROOT}/merb-helpers",          :doc => :yard },

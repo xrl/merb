@@ -162,7 +162,7 @@ module Merb::Cache::CacheMixin
     Merb::Cache.default_store_name
   end
 
-  #ugly, please make me purdy'er
+  # @todo Code: ugly, please make me purdy'er
   def _parameters_and_conditions(conditions)
     parameters = {}
 
