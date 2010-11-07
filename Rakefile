@@ -13,7 +13,7 @@ merb_stack_gems = [
   { :name => 'merb-gen',              :path => "#{ROOT}/merb-gen",              :doc => :yard },
   { :name => 'merb-haml',             :path => "#{ROOT}/merb-haml",             :doc => :yard },
   { :name => 'merb-helpers',          :path => "#{ROOT}/merb-helpers",          :doc => :yard },
-  { :name => 'merb-mailer',           :path => "#{ROOT}/merb-mailer",           :doc => :rdoc },
+  { :name => 'merb-mailer',           :path => "#{ROOT}/merb-mailer",           :doc => :yard },
   { :name => 'merb-param-protection', :path => "#{ROOT}/merb-param-protection", :doc => :rdoc },
   { :name => 'merb-exceptions',       :path => "#{ROOT}/merb-exceptions",       :doc => :yard },
   { :name => 'merb-auth',             :path => "#{ROOT}/../merb-auth",          :doc => :rdoc },
