@@ -4,6 +4,15 @@ require 'fileutils'
 
 ROOT = File.dirname(__FILE__)
 
+yard_options = [
+  ['--output-dir',  'doc/yard'               ],
+  ['--tag',         'overridable:Overridable'],
+  ['--markup',      'markdown'               ],
+  ['--exclude',     '/generators/'           ],
+  ['-e',            'yard/merbext.rb'        ],
+  ['-p',            'yard/templates'         ],
+]
+
 merb_stack_gems = [
   { :name => 'merb-core',             :path => "#{ROOT}/merb-core",             :doc => :yard },
   { :name => 'merb-action-args',      :path => "#{ROOT}/merb-action-args",      :doc => :yard },
@@ -67,44 +76,58 @@ task :spec do
   end
 end
 
+doc_files = []
+
+task :docfile_gen do
+  paths = merb_stack_gems.select {|g| g[:doc] == :yard}
+
+  # add source files to documentation generation
+  doc_files += paths.collect {|g| File.join(g[:name], 'lib', '**', '*.rb')}
+
+  # add auxiliary documentation files (in gems "docs" directory)
+  doc_files << '-'
+  doc_files << paths.collect { |g|
+    docs_path = File.join(g[:name], 'docs')
+    begin
+      if File.stat(docs_path).directory?
+        File.join(docs_path, '*.mkd')
+      else
+        ''
+      end
+    rescue
+      # skip over gems without a "docs" directory
+      ''
+    end
+  }.join(' ')
+end
+
+
+desc "Write .yardoc file for YARD"
+task :yardopts => [:docfile_gen] do
+  File.open(File.join(ROOT, '.yardopts'), 'w') do |yardfile|
+    yard_options.each do |yo|
+      case yo
+      when Array then yardfile.puts yo.join(' ')
+      else yardfile.puts yo
+      end
+    end
+
+    yardfile.puts doc_files.join($/)
+  end
+end
+
 task :doc => [:yard]
 begin
   require 'yard'
 
   YARD::Rake::YardocTask.new do |t|
-    paths = merb_stack_gems.select {|g| g[:doc] == :yard}
-
-    # add source files to documentation generation
-    t.files = []
-    t.files += paths.collect {|g| File.join(g[:path], 'lib', '**', '*.rb')}
-
-    # add auxiliary documentation files (in gems "docs" directory)
-    t.files << '-'
-    paths.each do |g|
-      docs_path = File.join(g[:path], 'docs')
-      begin
-        if File.stat(docs_path).directory?
-          t.files << File.join(docs_path, '*.mkd')
-        end
-      rescue
-        # skip over gems without a "docs" directory
-      end
-    end
-
-    t.options = [
-      '--output-dir', 'doc/yard',
-      '--tag', 'overridable:Overridable',
-      '--markup', 'markdown',
-      '--exclude', '/generators/',
-      '-e', 'yard/merbext.rb',
-    ]
-
-    t.before = Proc.new do
-      YARD::Templates::Engine.register_template_path File.join(ROOT, 'yard', 'templates')
-    end
+    t.files = doc_files
+    t.options = yard_options.flatten
   end
 rescue LoadError
   # just skip the Rake task if YARD is not installed
 end
+
+task :yard => [:docfile_gen]
 
 task :default => 'spec'
