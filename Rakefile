@@ -31,8 +31,8 @@ merb_stack_gems = [
 ]
 
 
-def gem_command(command)
-  sh "#{RUBY} -S gem #{command}"
+def gem_command(command, *args)
+  sh "#{RUBY} -S gem #{command} #{args.join(' ')}"
 end
 
 def rake_command(command)
@@ -57,7 +57,7 @@ end
 desc "Build all merb stack gems"
 task :build do
   merb_stack_gems.each do |gem_info|
-    Dir.chdir(gem_info[:path]) { rake_command "build" }
+    Dir.chdir(gem_info[:path]) { gem_command "build", "#{gem_info[:name]}.gemspec" }
   end
 end
 
