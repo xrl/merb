@@ -81,5 +81,5 @@ module Merb::Slices::RouterExtensions
 end
 
 Merb::Router.extensions do
-  include Merb::Slices::RouterExt
+  include Merb::Slices::RouterExtensions
 end
