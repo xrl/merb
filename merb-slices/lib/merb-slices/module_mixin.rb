@@ -6,7 +6,7 @@ module Merb
       $SLICE_MODULE ||= false
       
       def self.extended(slice_module)
-        slice_module.meta_class.module_eval do
+        slice_module.singleton_class.module_eval do
           attr_accessor :identifier, :identifier_sym, :root, :file
           attr_accessor :description, :version, :author
         end
