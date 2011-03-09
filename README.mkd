@@ -7,3 +7,24 @@ Merb is a web development framework. For more information, check out:
 
 [merbweb]: http://www.merbivore.com/
 [merbgit]: http://github.com/merb
+
+## Modules
+
+Merb consists of the following parts:
+
+* **merb-core:** Core functionality needed to bootstrap and run an
+  application.
+* **merb-action-args:** Plugin to handle request parameters as parameters
+  to controller actions.
+* **merb-assets:** Asset handling.
+* **merb-slices:** Slices are merb's application modules.
+* **merb-cache:** Support for content caches, e.g., memcache.
+* **merb-gen:** Generators for applications, plugins, and components.
+* **merb-haml:** Support for [HAML][hamlweb]
+* **merb-helpers:** Helpers for text and HTML formatting.
+* **merb-mailer:** MVC mail sending from an application.
+* **merb-param-protection:** Filter request parameters in controllers and
+  logs.
+* **merb-exceptions:** Exception notifications as mail and through web hooks.
+
+[hamlweb]: http://haml-lang.com/

@@ -12,6 +12,7 @@ yard_options = [
   ['--output-dir',  'doc/yard'               ],
   ['--tag',         'overridable:Overridable'],
   ['--markup',      'markdown'               ],
+  ['--markup-provider', 'kramdown'           ],
   ['--exclude',     '/generators/'           ],
 ]
 
