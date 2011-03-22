@@ -1,12 +1,17 @@
 # Merb
 
-Merb is a web development framework. For more information, check out:
+Merb is a web development framework for fast, simple, and powerful
+development. For more information, check out:
 
 * The [project website][merbweb]
 * The [git repository][merbgit]
 
+This is the 1.2 development branch. Expect things to break, and report
+issues at our [Lighthouse tracker][merbbugs].
+
 [merbweb]: http://www.merbivore.com/
 [merbgit]: http://github.com/merb
+[merbbugs]: https://merb.lighthouseapp.com/projects/7433-merb
 
 ## Modules
 
