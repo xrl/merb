@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class Merb::Controller < Merb::AbstractController
 
   class_inheritable_accessor :_hidden_actions, :_shown_actions, 

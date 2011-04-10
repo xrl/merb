@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class Hash
   # Returns the value of self for each argument and deletes those entries.
   #

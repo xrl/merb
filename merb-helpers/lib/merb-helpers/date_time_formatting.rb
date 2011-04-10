@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 module DateAndTimeFormatting
   
   def self.included(base)

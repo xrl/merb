@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 desc "Run specs, run a specific spec with TASK=spec/path_to_spec.rb"
 task :spec => [ "spec:default" ]
 
