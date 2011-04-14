@@ -9,7 +9,7 @@ module Merb::Helpers::Form::Builder
 
     def initialize(obj, name, origin)
       @obj, @origin = obj, origin
-      @name = name || @obj.class.name.snake_case.split("/").last
+      @name = name || @obj.class.name.underscore.split("/").last
     end
 
     def form(attrs = {}, &blk)
