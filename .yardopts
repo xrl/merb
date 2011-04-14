@@ -1,9 +1,8 @@
 --output-dir doc/yard
 --tag overridable:Overridable
 --markup markdown
+--markup-provider kramdown
 --exclude /generators/
--e yard/merbext.rb
--p yard/templates
 merb-core/lib/**/*.rb
 merb-action-args/lib/**/*.rb
 merb-assets/lib/**/*.rb
@@ -16,4 +15,14 @@ merb-mailer/lib/**/*.rb
 merb-param-protection/lib/**/*.rb
 merb-exceptions/lib/**/*.rb
 -
-merb-core/docs/*.mkd merb-action-args/docs/*.mkd merb-assets/docs/*.mkd merb-slices/docs/*.mkd merb-cache/docs/*.mkd merb-gen/docs/*.mkd merb-haml/docs/*.mkd merb-helpers/docs/*.mkd merb-mailer/docs/*.mkd merb-param-protection/docs/*.mkd merb-exceptions/docs/*.mkd
+merb-core/docs/*.mkd
+merb-action-args/docs/*.mkd
+merb-assets/docs/*.mkd
+merb-slices/docs/*.mkd
+merb-cache/docs/*.mkd
+merb-gen/docs/*.mkd
+merb-haml/docs/*.mkd
+merb-helpers/docs/*.mkd
+merb-mailer/docs/*.mkd
+merb-param-protection/docs/*.mkd
+merb-exceptions/docs/*.mkd
