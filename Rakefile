@@ -105,7 +105,7 @@ def docfile_gen(gemlist)
   doc_files
 end
 
-desc "Write .yardoc file for YARD"
+desc "Write .yardopts file for YARD"
 task :yardopts do
   File.open(File.join(ROOT, '.yardopts'), 'w') do |yardfile|
     yard_options.each do |yo|
