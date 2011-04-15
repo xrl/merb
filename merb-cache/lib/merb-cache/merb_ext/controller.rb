@@ -5,8 +5,8 @@ module Merb::Cache::CacheMixin
 
   module ClassMethods
     def cache!(conditions = {})
-      before(:_cache_before, conditions.only(:if, :unless).merge(:with => conditions))
-      after(:_cache_after, conditions.only(:if, :unless).merge(:with => conditions))
+      before(:_cache_before, conditions.slice(:if, :unless).merge(:with => conditions))
+      after(:_cache_after, conditions.slice(:if, :unless).merge(:with => conditions))
     end
 
     def cache(*actions)
@@ -18,8 +18,8 @@ module Merb::Cache::CacheMixin
     end
 
     def cache_action(action, conditions = {})
-      before("_cache_#{action}_before", conditions.only(:if, :unless).merge(:with => [conditions], :only => action))
-      after("_cache_#{action}_after", conditions.only(:if, :unless).merge(:with => [conditions], :only => action))
+      before("_cache_#{action}_before", conditions.slice(:if, :unless).merge(:with => [conditions], :only => action))
+      after("_cache_#{action}_after", conditions.slice(:if, :unless).merge(:with => [conditions], :only => action))
       alias_method "_cache_#{action}_before", :_cache_before
       alias_method "_cache_#{action}_after",  :_cache_after
     end
@@ -33,7 +33,7 @@ module Merb::Cache::CacheMixin
         target_controller, target_action = self, target
       end
 
-      after("_eager_cache_#{trigger_action}_to_#{target_controller.name.snake_case}__#{target_action}_after", conditions.only(:if, :unless).merge(:with => [target_controller, target_action, conditions, blk], :only => trigger_action))
+      after("_eager_cache_#{trigger_action}_to_#{target_controller.name.snake_case}__#{target_action}_after", conditions.slice(:if, :unless).merge(:with => [target_controller, target_action, conditions, blk], :only => trigger_action))
 
       #FIXME: workaround for long filename in YARD when using 1.9-style parser
       #alias_method "_eager_cache_#{trigger_action}_to_#{target_controller.name.snake_case}__#{target_action}_after", :_eager_cache_after
