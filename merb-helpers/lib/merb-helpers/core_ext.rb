@@ -2,7 +2,7 @@ require "date"
 require 'merb-helpers/date_time_formatting'
 
 class Date
-  include DateAndTimeFormatting
+  include OrdinalizedFormatting
 
   # Converts a Date instance to a Time, where the time is set to the
   # beginning of the day.
@@ -19,41 +19,17 @@ class Date
   def to_time(form = :utc)
     ::Time.send("#{form}", year, month, day)
   end
-  
+
   def to_date; self; end
-  
-  def formatted(format=:default)
-    format = Date.formats[format] 
-    if format.nil?
-      self.to_s 
-    else
-      self.strftime(format)
-    end
-  end
-  
 end
 
 class Time
-  include DateAndTimeFormatting
-  
+  include OrdinalizedFormatting
+
   # Ruby 1.8-cvs and 1.9 define private Time#to_date
   %w(to_date to_datetime).each do |method|
     public method if private_instance_methods.include?(method)
   end
-  
-  def to_time; self; end
-end
 
-class String
-  # Truncates a string to the given length and appends the given suffix if
-  # the string is, in fact, truncated.
-  #
-  # @example
-  #     "This is a long string right here".truncate(10, "...")
-  #     #=> "This is..."
-  def truncate(length = 30, truncate_string = "...")
-    return self unless self.length > length
-    length = length - truncate_string.split(//).length
-    self[0...length] + truncate_string
-  end
+  def to_time; self; end
 end

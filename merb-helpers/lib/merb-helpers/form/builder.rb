@@ -237,8 +237,8 @@ module Merb::Helpers::Form::Builder
       b = blank || prompt ? tag(:option, prompt || "", :value => "") : ""
 
       # yank out the options attrs
-      collection, selected, text_method, value_method = 
-        attrs.extract!(:collection, :selected, :text_method, :value_method)
+      collection, selected, text_method, value_method =
+        [:collection, :selected, :text_method, :value_method].map {|key| attrs.delete(key)}
 
       # if the collection is a Hash, optgroups are a-coming
       if collection.is_a?(Hash)
@@ -265,7 +265,7 @@ module Merb::Helpers::Form::Builder
 
         option_attrs = {:value => value}
         if sel.is_a?(Array)
-          option_attrs.merge!(:selected => "selected") if value.in? sel.map {|e| e.to_s }
+          option_attrs.merge!(:selected => "selected") if sel.map {|e| e.to_s }.include?(value)
         else
           option_attrs.merge!(:selected => "selected") if value == sel.to_s
         end

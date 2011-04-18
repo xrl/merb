@@ -1,6 +1,6 @@
 # merb-helpers
 
-A plugin for the Merb Web framework that provides different view helpers.
+A plugin for the Merb Web framework that provides view helpers.
 
 To use this plugin in merb in your app, add the gem `merb-helpers` to your
 application's `Gemfile`, and run `gem bundle`.

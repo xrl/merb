@@ -160,19 +160,20 @@ describe "time_lost_in_words" do
     time_lost_in_words(5.months.ago).should == "5 months"
   end
 
-  it "Should do year" do
-    time_lost_in_words(1.2.years.ago).should == "about 1 year"
-  end
+  pending "ActiveSupport does not provide Float#years" do
+    it "Should do year" do
+      time_lost_in_words(1.2.years.ago).should == "about 1 year"
+    end
 
-  it "Should do years" do
-    time_lost_in_words(5.5.years.ago).should == "over 5 years"
+    it "Should do years" do
+      time_lost_in_words(5.5.years.ago).should == "over 5 years"
+    end
   end
 end
 
 describe "prettier_time" do
   include Merb::Helpers::DateAndTime
 
-  # prettier time"
   it "Should not show leading zero in hour" do
     prettier_time(Time.utc(2007, 11, 15, 14, 0)).should == '2:00 PM'
   end
@@ -186,19 +187,10 @@ describe "prettier_time" do
   end
 end
 
+#TODO: This is really speccing AS, so why bother?
 shared_examples_for "Date, DateTime, Time formatting" do
-
-  before(:each) do
-    Date.reset_formats
-  end
-
-  it "should list the available formats" do
-    Date.formats.should be_an_instance_of(Hash)
-    Date.formats.keys.length.should > 1
-  end
-
   it "should support to be db formatted" do
-    @date.formatted(:db).should =~ /^2007-11-02 \d{2}:\d{2}:\d{2}$/
+    @date.formatted(:default, :locale => :C).should =~ /^2007-11-02 \d{2}:\d{2}:\d{2}$/
   end
 
   it "should support to be time formatted" do
@@ -206,7 +198,7 @@ shared_examples_for "Date, DateTime, Time formatting" do
   end
 
   it "should support to be short formatted" do
-    @date.formatted(:short).should == "02 Nov 00:00"
+    @date.formatted(:short).should == (@date.respond_to?(:sec) ? "02 Nov 00:00" : "Nov 02")
   end
 
   it "should support to be date formatted" do
@@ -214,17 +206,13 @@ shared_examples_for "Date, DateTime, Time formatting" do
   end
 
   it "should support to be long formatted" do
-    @date.formatted(:long).should == "November 02, 2007 00:00"
+    @date.formatted(:long).should == (@date.respond_to?(:sec) ? "November 02, 2007 00:00" : "November 02, 2007")
   end
 
-  it "should support a new date format" do
-    @date.formatted(:matt).should == @date.to_s
-    Date.add_format(:matt, "%H:%M:%S %Y-%m-%d")
-    @date.formatted(:matt).should == "00:00:00 2007-11-02"
+  it "should support arbitrary format strings" do
+    @date.formatted(:default, :format => "%Y -- %d").should == "2007 -- 02"
   end
-
 end
-
 
 describe "Date" do
   before :each do
@@ -253,8 +241,9 @@ describe "Date" do
   end
 
   it "Should do to_time conversion to local time when param :local is given" do
-    pending("Needs to have the call to figure out the local time stubbed so this test will work no matter what your local TZ is.")
-    @date.to_time(:local).to_s.should == 'Fri Nov 02 00:00:00 -0500 2007'
+    pending("Needs to have the call to figure out the local time stubbed so this test will work no matter what your local TZ is.") do
+      @date.to_time(:local).to_s.should == 'Fri Nov 02 00:00:00 -0500 2007'
+    end
   end
 
   it "Should return itself when to_date is called" do
@@ -262,15 +251,12 @@ describe "Date" do
   end
 
   it_should_behave_like "Date, DateTime, Time formatting"
-
 end
 
 describe "DateTime" do
-
   before(:each) do
     @date = DateTime.new(2007, 11, 02)
   end
 
   it_should_behave_like "Date, DateTime, Time formatting"
-
 end

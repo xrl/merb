@@ -29,23 +29,29 @@ describe "to_ordinalized_s" do
   end
 
   it "should render a date or time using the db format" do
-    @date.to_ordinalized_s(:db).should == "2008-05-03 00:00:00"
-    @time.to_ordinalized_s(:db).should == "2008-05-03 14:00:00"
+    @date.to_ordinalized_s(:default, :locale => :C).should == "2008-05-03 00:00:00"
+    @time.to_ordinalized_s(:default, :locale => :C).should == "2008-05-03 14:00:00"
   end
 
   it "should render a date or time using the long format" do
-    @date.to_ordinalized_s(:long).should == "May 3rd, 2008 00:00"
+    @date.to_ordinalized_s(:long).should == "May 3rd, 2008"
     @time.to_ordinalized_s(:long).should == "May 3rd, 2008 14:00"
   end
 
   it "should render a date or time using the time format" do
-    @date.to_ordinalized_s(:time).should == "00:00"
+    #@date.to_ordinalized_s(:time).should == "00:00"
     @time.to_ordinalized_s(:time).should == "14:00"
   end
 
   it "should render a date or a time using the short format" do
-    @date.to_ordinalized_s(:short).should == "3rd May 00:00"
+    @date.to_ordinalized_s(:short).should == "May 3rd"
     @time.to_ordinalized_s(:short).should == "3rd May 14:00"
+  end
+
+  it "should respond to i18n setting a temporary locale" do
+    I18n.with_locale(:de) do
+      @date.to_ordinalized_s(:short).strip.should == "3. Mai"
+    end
   end
 
 end

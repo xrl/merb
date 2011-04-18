@@ -36,28 +36,28 @@ Merb.start_environment(options)
 
 
 class FakeErrors
-  
   def initialize(model)
     @model = model
   end
-  
+
   def on(name)
     name.to_s.include?("bad")
   end
-  
-  alias :[] :on
 
+  alias :[] :on
 end
 
 class FakeColumn
   attr_accessor :name, :type
-  
+
   def initialize(name, type)
     @name, @type = name, type
   end
-  
 end
 
+# use supplied locales
+I18n.load_path += Dir[File.dirname(__FILE__) / 'locale' / '*.{rb,yml}']
+I18n.reload!
 
 # -- Global custom matchers --
 
@@ -71,82 +71,82 @@ end
 #
 #   "expected File but got Tempfile"
 
-module Merb
-  module Test
-    module RspecMatchers
-      class IncludeLog
-        def initialize(expected)
-          @expected = expected
-        end
-        
-        def matches?(target)
-          target.log.rewind
-          @text = target.log.read
-          @text =~ (String === @expected ? /#{Regexp.escape @expected}/ : @expected)
-        end
-        
-        def failure_message
-          "expected to find `#{@expected}' in the log but got:\n" <<
-          @text.map {|s| "  #{s}" }.join
-        end
-        
-        def negative_failure_message
-          "exected not to find `#{@expected}' in the log but got:\n" <<
-          @text.map {|s| "  #{s}" }.join
-        end
-        
-        def description
-          "include #{@text} in the log"
-        end
-      end
-      
-      class BeKindOf
-        def initialize(expected) # + args
-          @expected = expected
-        end
-
-        def matches?(target)
-          @target = target
-          @target.kind_of?(@expected)
-        end
-
-        def failure_message
-          "expected #{@expected} but got #{@target.class}"
-        end
-
-        def negative_failure_message
-          "expected #{@expected} to not be #{@target.class}"
-        end
-
-        def description
-          "be_kind_of #{@target}"
-        end
-      end
-
-      def be_kind_of(expected) # + args
-        BeKindOf.new(expected)
-      end
-      
-      def include_log(expected)
-        IncludeLog.new(expected)
-      end
-    end
-
-    module Helper
-      def running(&blk) blk; end
-
-      def executing(&blk) blk; end
-
-      def doing(&blk) blk; end
-
-      def calling(&blk) blk; end
-    end
-  end
-end
+#module Merb
+#  module Test
+#    module RspecMatchers
+#      class IncludeLog
+#        def initialize(expected)
+#          @expected = expected
+#        end
+#        
+#        def matches?(target)
+#          target.log.rewind
+#          @text = target.log.read
+#          @text =~ (String === @expected ? /#{Regexp.escape @expected}/ : @expected)
+#        end
+#        
+#        def failure_message
+#          "expected to find `#{@expected}' in the log but got:\n" <<
+#          @text.map {|s| "  #{s}" }.join
+#        end
+#        
+#        def negative_failure_message
+#          "exected not to find `#{@expected}' in the log but got:\n" <<
+#          @text.map {|s| "  #{s}" }.join
+#        end
+#        
+#        def description
+#          "include #{@text} in the log"
+#        end
+#      end
+#      
+#      class BeKindOf
+#        def initialize(expected) # + args
+#          @expected = expected
+#        end
+#
+#        def matches?(target)
+#          @target = target
+#          @target.kind_of?(@expected)
+#        end
+#
+#        def failure_message
+#          "expected #{@expected} but got #{@target.class}"
+#        end
+#
+#        def negative_failure_message
+#          "expected #{@expected} to not be #{@target.class}"
+#        end
+#
+#        def description
+#          "be_kind_of #{@target}"
+#        end
+#      end
+#
+#      def be_kind_of(expected) # + args
+#        BeKindOf.new(expected)
+#      end
+#      
+#      def include_log(expected)
+#        IncludeLog.new(expected)
+#      end
+#    end
+#
+#    module Helper
+#      def running(&blk) blk; end
+#
+#      def executing(&blk) blk; end
+#
+#      def doing(&blk) blk; end
+#
+#      def calling(&blk) blk; end
+#    end
+#  end
+#end
 
 RSpec.configure do |config|
-  config.include Merb::Test::Helper
-  config.include Merb::Test::RspecMatchers
+#  config.include Merb::Test::Helper
+#  config.include Merb::Test::RspecMatchers
   config.include Merb::Test::RequestHelper
   config.include Webrat::Matchers
   config.include Webrat::HaveTagMatcher

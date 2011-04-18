@@ -25,6 +25,7 @@ Gem::Specification.new do |gem|
 
   # Runtime dependencies
   gem.add_dependency 'merb-core', "~> #{Merb::VERSION}"
+  gem.add_dependency 'i18n', '>= 0.5'
 
   # Development dependencies
   gem.add_development_dependency 'rspec', '>= 2.5'

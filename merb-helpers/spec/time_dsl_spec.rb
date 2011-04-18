@@ -27,8 +27,8 @@ describe "TimeDSL" do
   end
 
   it "Should do year/years" do
-    3.years.should == 3 * 364.25 * 24 * 3600
-    1.year.should == 364.25 * 24 * 3600
+    3.years.should == 3 * 365.25 * 24 * 3600
+    1.year.should == 365.25 * 24 * 3600
   end
 
   it "Should do ago/until" do
