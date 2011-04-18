@@ -110,9 +110,11 @@ describe "form" do
     end
 
     it "should not explode when #form is called" do
-      r = @c.render :resourceful_form
-      pending
-      #r.should =~ /action="fake_model2\/#{@obj.id}"/
+      #TODO: what is the expected behaviour exactly?
+      pending do
+        r = @c.render :resourceful_form
+        r.should =~ /action="fake_model2\/#{@obj.id}"/
+      end
     end
   end
 
