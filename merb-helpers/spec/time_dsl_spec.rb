@@ -32,12 +32,12 @@ describe "TimeDSL" do
   end
 
   it "Should do ago/until" do
-    5.seconds.ago.should be_close(Time.now - 5, 0.5)
-    8.minutes.until(3.minute.from_now).should be_close(3.minutes.from_now - 8 * 60, 0.5)
+    5.seconds.ago.should be_within(0.5).of(Time.now - 5)
+    8.minutes.until(3.minute.from_now).should be_within(0.5).of(3.minutes.from_now - 8 * 60)
   end
 
   it "Should do from_now/since" do
-    3.seconds.from_now.should be_close(Time.now + 3, 0.5)
-    2.minutes.since(2.minutes.ago).should be_close(2.minutes.ago + 2 * 60, 0.5)
+    3.seconds.from_now.should be_within(0.5).of(Time.now + 3)
+    2.minutes.since(2.minutes.ago).should be_within(0.5).of(2.minutes.ago + 2 * 60)
   end
 end

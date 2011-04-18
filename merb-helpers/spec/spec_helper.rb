@@ -9,7 +9,7 @@ require 'merb-core'
 require "merb-helpers"
 
 # Satisfies Autotest and anyone else not using the Rake tasks
-require 'spec'
+require 'rspec'
 
 require "date"
 require "webrat"
@@ -144,7 +144,7 @@ module Merb
   end
 end
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   config.include Merb::Test::Helper
   config.include Merb::Test::RspecMatchers
   config.include Merb::Test::RequestHelper

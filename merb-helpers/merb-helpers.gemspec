@@ -27,5 +27,6 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'merb-core', "~> #{Merb::VERSION}"
 
   # Development dependencies
-  gem.add_development_dependency 'rspec', '>= 1.2.9'
+  gem.add_development_dependency 'rspec', '>= 2.5'
+  gem.add_development_dependency 'hpricot'
 end
