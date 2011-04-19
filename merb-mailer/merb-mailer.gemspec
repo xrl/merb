@@ -25,8 +25,9 @@ Gem::Specification.new do |gem|
 
   # Runtime dependencies
   gem.add_dependency 'merb-core', "~> #{Merb::VERSION}"
-  gem.add_dependency('mailfactory', '>= 1.2.3')
+  gem.add_dependency 'mailfactory', '>= 1.2.3'
+  gem.add_dependency 'templater', '~> 1.0'
 
   # Development dependencies
-  gem.add_development_dependency 'rspec', '>= 1.2.9'
+  gem.add_development_dependency 'rspec', '>= 2.5'
 end

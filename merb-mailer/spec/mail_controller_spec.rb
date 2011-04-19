@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   config.include Merb::Test::RequestHelper
   config.include Merb::Test::ControllerHelper
 end
