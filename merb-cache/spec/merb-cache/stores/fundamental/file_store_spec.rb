@@ -5,7 +5,7 @@ describe Merb::Cache::FileStore do
   it_should_behave_like 'all stores'
 
   before(:each) do
-    @store = Merb::Cache::FileStore.new(:dir => File.dirname(Tempfile.new("").path))
+    @store = Merb::Cache::FileStore.new(:dir => File.dirname(Tempfile.new("merb-cache-spec").path))
   end
 
   #

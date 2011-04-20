@@ -14,7 +14,7 @@ require 'merb-gen'
 require "merb-mailer"
 
 # Satisfies Autotest and anyone else not using the Rake tasks
-require 'spec'
+require 'rspec'
 
 Merb::Config.use do |c|
   c[:session_store] = :memory

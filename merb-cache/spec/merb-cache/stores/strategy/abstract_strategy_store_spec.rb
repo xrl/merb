@@ -3,7 +3,7 @@ require 'merb-cache/stores/fundamental/abstract_store_spec'
 
 
 describe Merb::Cache::AbstractStrategyStore do
-  describe 'all strategy stores', :shared => true do
+  shared_examples_for 'all strategy stores' do
     it_should_behave_like 'all stores'
 
     before(:each) do
@@ -11,7 +11,7 @@ describe Merb::Cache::AbstractStrategyStore do
       Thread.current[:'merb-cache'] = nil
     end
 
-    describe "contextualizing method", :shared => true do
+    shared_examples_for "contextualizing method" do
       it "should return a subclass of itself" do
         subclass = @klass.contextualize(Class.new(Merb::Cache::AbstractStore))
         subclass.superclass.should  == @klass

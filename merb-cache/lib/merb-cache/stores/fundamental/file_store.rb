@@ -15,7 +15,7 @@ module Merb::Cache
     # @option config [String] :dir (Merb.root_path(:tmp / :cache)
     #   Storage path.
     def initialize(config = {})
-      @dir = config[:dir] || Merb.root_path(:tmp / :cache)
+      @dir = config[:dir] || Merb.root(:tmp / :cache)
 
       create_path(@dir)
     end
@@ -85,7 +85,8 @@ module Merb::Cache
     protected
 
     def create_path(path)
-      FileUtils.mkdir_p(File.dirname(path))
+      dir_name = File.dirname(path)
+      File.directory?(dir_name) || FileUtils.mkdir_p(dir_name)
     end
 
     # Reads file content. Access to the file uses file locking.

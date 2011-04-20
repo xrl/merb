@@ -14,7 +14,7 @@ require 'merb-mailer'
 require "merb-exceptions"
 
 # Satisfies Autotest and anyone else not using the Rake tasks
-require 'spec'
+require 'rspec'
 
 
 class Application < Merb::Controller
@@ -81,7 +81,7 @@ module Merb
   end
 end
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   config.include Merb::Test::ControllerHelper
   config.include Merb::Test::RequestHelper
   config.include Merb::Test::RouteHelper

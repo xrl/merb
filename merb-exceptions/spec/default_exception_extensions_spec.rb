@@ -10,7 +10,9 @@ describe MerbExceptions::DefaultExceptionExtensions do
 
   it "should notify_of_exceptions" do
     MerbExceptions::Notification.should_receive(:new)
-    request("/raise_error/index")
+    with_level(:fatal) do
+      visit("/raise_error/index") rescue nil
+    end
   end
 
 end

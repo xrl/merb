@@ -119,18 +119,18 @@ describe "a merb mailer" do
   end
   
   it "should be able to send mails via sendmail" do
-    sendmail = mock("/usr/sbin/sendmail", :null_object => true) 
+    sendmail = mock("/usr/sbin/sendmail").as_null_object
     setup_test_mailer TestSendmailMailer
     IO.should_receive(:popen).with("/usr/sbin/sendmail #{@m.mail.to}", "w+").and_return(sendmail) 
     @m.deliver!
-  end  
-  
+  end
+
   it "should be able to use a different sendmail path" do 
- 	  sendmail = mock("/somewhere/sendmail", :null_object => true) 
- 	  setup_test_mailer TestSendmailMailer 
- 	  @m.config[:sendmail_path] = '/somewhere/sendmail' 
- 	  IO.should_receive(:popen).with("/somewhere/sendmail #{@m.mail.to}", "w+").and_return(sendmail) 
- 	  @m.deliver! 
- 	end
-  
+    sendmail = mock("/somewhere/sendmail").as_null_object
+    setup_test_mailer TestSendmailMailer 
+    @m.config[:sendmail_path] = '/somewhere/sendmail' 
+    IO.should_receive(:popen).with("/somewhere/sendmail #{@m.mail.to}", "w+").and_return(sendmail) 
+    @m.deliver! 
+  end
+
 end

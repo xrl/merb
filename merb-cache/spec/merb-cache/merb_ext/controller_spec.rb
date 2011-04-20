@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'timeout'
 
 describe Merb::Cache::CacheMixin do
   before(:all) do
@@ -130,7 +131,7 @@ describe Merb::Cache::CacheMixin do
     end
     
     before(:each) do
-      @mock_store = mock("store", :null_object => true)
+      @mock_store = mock("store").as_null_object
       Merb::Cache.stub!(:[]).and_return(@mock_store)
       @mock_store.stub!(:read).and_return("CACHED")
     end

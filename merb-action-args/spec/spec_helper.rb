@@ -9,13 +9,13 @@ require 'merb-core'
 require "merb-action-args"
 
 # Satisfies Autotest and anyone else not using the Rake tasks
-require 'spec'
+require 'rspec'
 
 # Additional files required for specs
 require "controllers/action-args"
 
 Merb.start :environment => 'test'
 
-Spec::Runner.configure do |config|
-  config.include Merb::Test::RequestHelper  
+RSpec.configure do |config|
+  config.include Merb::Test::RequestHelper
 end
