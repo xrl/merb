@@ -1,4 +1,7 @@
 require 'spec_helper'
+require 'stringio'
+
+Merb.logger.set_log(StringIO.new)
 
 describe "ActionArgs" do
   
@@ -35,15 +38,15 @@ describe Merb::AbstractController do
   end
   
   it "should be able to accept multiple Action Arguments" do
-    dispatch_to(ActionArgs, :multi, :foo => "bar", :bar => "baz").body.should == "bar baz"    
+    dispatch_to(ActionArgs, :multi, :foo => "para_foo", :bar => "para_bar").body.should == "para_foo para_bar"
   end
   
   it "should be able to handle defaults in Action Arguments" do
-    dispatch_to(ActionArgs, :defaults, :foo => "bar").body.should == "bar bar"
+    dispatch_to(ActionArgs, :defaults, :foo => "para_foo").body.should == "para_foo bar"
   end
   
   it "should be able to handle out of order defaults" do
-    dispatch_to(ActionArgs, :defaults_mixed, :foo => "bar", :baz => "bar").body.should == "bar bar bar"    
+    dispatch_to(ActionArgs, :defaults_mixed, :foo => "para_foo", :baz => "para_baz").body.should == "para_foo bar para_baz"
   end
   
   it "should throw a BadRequest if the arguments are not provided" do
@@ -63,7 +66,7 @@ describe Merb::AbstractController do
   end
   
   it "should be able to handle [] defaults" do
-    dispatch_to(ActionArgs, :with_default_array, :foo => "bar").body.should == "bar []"
+    dispatch_to(ActionArgs, :with_default_array, :foo => "para_foo").body.should == "para_foo []"
   end
   
   it "should print out the missing parameters if all are required" do
@@ -73,7 +76,7 @@ describe Merb::AbstractController do
   
   it "should only print out missing parameters" do
     lambda { dispatch_to(ActionArgs, :multi, :foo => "Hello") }.should raise_error(
-      Merb::ControllerExceptions::BadRequest, /were missing bar/)          
+      Merb::ControllerExceptions::BadRequest, /were missing bar/)
   end
   
 end
