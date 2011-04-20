@@ -26,3 +26,4 @@ doc/*
 */.yardoc
 */.yardoc/*
 *.rbc
+rspec_results.html
