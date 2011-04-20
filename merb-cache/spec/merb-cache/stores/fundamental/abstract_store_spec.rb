@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'all stores', :shared => true do
+shared_examples_for 'all stores' do
   describe "#writable?" do
     it "should not raise a NotImplementedError error" do
       lambda { @store.writable?(:foo) }.should_not raise_error(NotImplementedError)

@@ -1,4 +1,5 @@
 require "rubygems"
+require 'stringio'
 
 # Use current merb-core sources if running from a typical dev checkout.
 lib = File.expand_path('../../../merb-core/lib', __FILE__)
@@ -14,11 +15,12 @@ require 'merb-action-args'
 require "merb-cache"
 
 # Satisfies Autotest and anyone else not using the Rake tasks
-require 'spec'
+require 'rspec'
 
 Merb.start :environment => 'test'
+Merb.logger.set_log(StringIO.new)
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   config.include Merb::Test::RequestHelper
   config.include Merb::Test::RouteHelper
 end
