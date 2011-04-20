@@ -10,7 +10,7 @@ require 'merb-core'
 require "merb-assets"
 
 # Satisfies Autotest and anyone else not using the Rake tasks
-require 'spec'
+require 'rspec'
 
 Merb.start :environment => 'test'
 
@@ -18,6 +18,6 @@ Merb::Plugins.config[:asset_helpers][:max_hosts] = 4
 Merb::Plugins.config[:asset_helpers][:asset_domain] = "assets%d"
 Merb::Plugins.config[:asset_helpers][:domain] = "my-awesome-domain.com"
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   config.include Merb::Test::RequestHelper  
 end
