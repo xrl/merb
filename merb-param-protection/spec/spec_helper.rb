@@ -9,14 +9,14 @@ require 'merb-core'
 require "merb-param-protection"
 
 # Satisfies Autotest and anyone else not using the Rake tasks
-require 'spec'
+require 'rspec'
 
 # Additional files required for specs
 require "controllers/param_protection"
 
 Merb.start :environment => 'test'
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   config.include Merb::Test::ControllerHelper
   config.include Merb::Test::RequestHelper
 end

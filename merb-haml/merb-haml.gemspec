@@ -28,5 +28,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'haml',      '>= 2.0.3'
 
   # Development dependencies
-  gem.add_development_dependency 'rspec', '>= 1.2.9'
+  gem.add_development_dependency 'rspec', '>= 2.5'
 end
