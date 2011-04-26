@@ -14,7 +14,7 @@ module Merb
 
       # Helper method to transform a slice filename to a module Symbol.
       def filename2module(slice_file)
-        File.basename(slice_file, '.rb').gsub('-', '_').camel_case.to_sym
+        File.basename(slice_file, '.rb').gsub('-', '_').camelize.to_sym
       end
 
       # Register a Slice by its gem/lib path for loading at startup.
@@ -36,7 +36,7 @@ module Merb
         # do what filename2module does, but with intermediate variables
         identifier  = File.basename(slice_file, '.rb')
         underscored = identifier.gsub('-', '_')
-        module_name = underscored.camel_case
+        module_name = underscored.camelize
         slice_path  = File.expand_path(File.dirname(slice_file) + '/..')
         # check if slice_path exists instead of just the module name - more flexible
         if !self.paths.include?(slice_path) || force
@@ -230,7 +230,7 @@ module Merb
       #
       # @param [#to_s] The slice module to check for.
       def exists?(module_name)
-        const_name = module_name.to_s.camel_case
+        const_name = module_name.to_s.camelize
         slice_names.include?(const_name) && Object.const_defined?(const_name)
       end
 
