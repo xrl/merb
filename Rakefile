@@ -76,7 +76,11 @@ desc "Run specs for all merb stack gems"
 task :spec do
   # Omit the merb metagem, no specs there
   merb_stack_gems[0..-2].each do |gem_info|
-    Dir.chdir(gem_info[:path]) { rake_command "spec" }
+    begin
+      Dir.chdir(gem_info[:path]) { rake_command "spec" }
+    rescue
+      raise "Problem while working on #{gem_info.inspect}"
+    end
   end
 end
 
