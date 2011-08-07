@@ -89,6 +89,23 @@ module Merb
   end
 end
 
+# Used to be in public/abstract_controller/spec_helper.rb
+module Merb::Test::Behaviors
+  include Merb::Test::RequestHelper
+  
+  def dispatch_should_make_body(klass, body, action = :index, opts = {}, env = {}, &blk)
+    klass = Merb::Test::Fixtures::Abstract.const_get(klass)
+    if opts.key?(:presets)
+      controller = klass.new
+      opts[:presets].each { |attr, value| controller.send(attr, value)}
+      controller._dispatch(action.to_s)
+    else
+      controller = dispatch_to(klass, action, opts, env, &blk)
+    end
+    controller.body.should === body
+  end
+end
+
 # Helper to extract cookies from headers
 #
 # This is needed in some specs for sessions and cookies
@@ -101,6 +118,7 @@ end
 RSpec.configure do |config|
   config.include Merb::Test::Helper
   config.include Merb::Test::RspecMatchers
+  config.include Merb::Test::Behaviors
   config.include ::Webrat::Matchers
   config.include ::Webrat::HaveTagMatcher
   #config.include Merb::Test::RequestHelper

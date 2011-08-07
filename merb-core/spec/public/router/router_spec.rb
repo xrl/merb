@@ -146,6 +146,10 @@ describe Merb::Router do
     
     it "should set a class method of Router to be called around request matching" do
       class Merb::Router
+        def self.before!
+        end
+        def self.after!
+        end
         def self.my_awesome_thang(request)
           before!
           retval = yield
@@ -162,6 +166,9 @@ describe Merb::Router do
       Merb::Router.should_receive(:before!)
       Merb::Router.should_receive(:after!)
       route_for("/").should have_route(:controller => "home")
+      
+      # Ahhh, now we need to disable this thing! Otherwise it's run EVERYWHERE!
+      Merb::Router.around_match = nil
     end
     
   end

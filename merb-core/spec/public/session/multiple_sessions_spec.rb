@@ -3,8 +3,9 @@ startup_merb(:session_stores => ["cookie", "memory", "memcache"], :session_secre
 
 require File.join(File.dirname(__FILE__), "controllers", "sessions")
 
-require 'memcache'
-Merb::MemcacheSession.store = MemCache.new('127.0.0.1:11211', { :namespace => 'my_app' })
+require 'memcached'
+system "memcached -d -p 11211"
+Merb::MemcacheSession.store = Memcached.new('127.0.0.1:11211', { :namespace => 'my_app' })
 
 begin
   Merb::MemcacheSession.store.stats  

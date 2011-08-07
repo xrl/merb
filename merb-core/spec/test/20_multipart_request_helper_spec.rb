@@ -10,7 +10,7 @@ end
 describe Merb::Test::MultipartRequestHelper do
 
   describe "#dispatch_multipart_to" do
-
+    pending
     before(:all) do 
       @controller_klass = Merb::Test::DispatchController
     end
