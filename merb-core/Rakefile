@@ -1,5 +1,8 @@
 require 'rubygems'
+require "bundler"
+Bundler.require
 require 'rake'
+
 require "rake/rdoctask"
 require "rake/testtask"
 require "rspec/core/rake_task"
@@ -21,20 +24,20 @@ task :merb => [:clean, :doc, :package]
 ##############################################################################
 # Documentation
 ##############################################################################
-task :doc => [:yard]
-begin
-  require 'yard'
-
-  YARD::Rake::YardocTask.new do |t|
-    t.files   = [File.join('lib', '**', '*.rb'), '-', File.join('docs', '*.mkd')]
-    t.options = [
-      '--output-dir', 'doc/yard',
-      '--tag', 'overridable:Overridable',
-      '--markup', 'markdown',
-    ]
-  end
-rescue
-end
+# task :doc => [:yard]
+# begin
+#  require 'yard'
+#
+#  YARD::Rake::YardocTask.new do |t|
+#    t.files   = [File.join('lib', '**', '*.rb'), '-', File.join('docs', '*.mkd')]
+#    t.options = [
+#      '--output-dir', 'doc/yard',
+#      '--tag', 'overridable:Overridable',
+#      '--markup', 'markdown',
+#    ]
+#  end
+# rescue
+# end
 
 ##############################################################################
 # rSpec & rcov
@@ -67,7 +70,7 @@ desc "Run all specs; set RAKE_TAG to filter specs (see rspec --tag parameter)"
 RSpec::Core::RakeTask.new(:spec) do |t|
   options = ""
   options += "--tag #{ENV['RAKE_TAG']}" unless ENV['RAKE_TAG'].nil?
-
+  options += "--require " + File.join(File.dirname(__FILE__), "spec", "spec_helper")
   t.pattern = "spec/**/*_spec.rb"
   t.rspec_opts = options
   t.fail_on_error = false

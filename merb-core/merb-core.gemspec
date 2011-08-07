@@ -31,6 +31,7 @@ Gem::Specification.new do |gem|
 
     # Runtime dependencies
     gem.add_dependency 'activesupport', '~> 3.0'
+    gem.add_dependency 'i18n'
     gem.add_dependency 'erubis',        '>= 2.6.2'
     gem.add_dependency 'rake'
     gem.add_dependency 'rack'
